@@ -20,6 +20,7 @@ DEBUG = False
 
 # Basic variables
 personToReact = 0
+personToCopy = 0
 
 print(f"Last 5 digits of token: {TOKEN[-5:]}")
 print(f"Channel ID: {CHANNEL}")
@@ -57,7 +58,7 @@ async def on_message(message):
 
 			# If the message was sent by me
 			if message.author.name == "Cappa Bot":
-				print(f"Message was sent by me in: {message.guild.name} > {message.channel.name} | {message.contents}")
+				print(f"Message was sent by me in: {message.guild.name} > {message.channel.name} | {message.content}")
 			# If the message was sent by dad bot
 			if message.author.name == "Dad Bot":
 				# Say shut up dad bot
@@ -76,16 +77,22 @@ async def on_message(message):
 			#if message.author.name == "drporknswine":
 			#	await message.channel.send("<@783924515549347870> said something")
    
-			# Check if the message was from the person I need to react to
+			# Check if I need to react to the person
 			if message.author.id == personToReact:
 				# React to them
 				print("I should react to that")
 				await message.reply("[reaction image]")
+			
+			# Check if I need to copy the person
+			if message.author.id == personToCopy:
+				# Copy them
+				print("I should copy that")
+				await message.channel.send(message.content)
 
 			# Check if it was a command
 			if message.content.lower() == "stop":
-				message.channel.send("Ok, I'll stop now.")
 				print("I should stop now")
+				await message.channel.send("Ok, I'll stop now.")
 				sys.exit("Someone told me to stop.")
 			elif message.content.lower()[:5] == "react":
 				personToReact = int(message.content[8:-1])
@@ -101,7 +108,7 @@ async def on_message(message):
 	else:
 		print(f"""Message in DM's. Details:
 	Sent from: {message.author.name} / {message.author.global_name}
-	Contents: {message.contents}""")
+	Contents: {message.content}""")
 		
 	print("-"*50)
 
