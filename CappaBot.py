@@ -17,6 +17,8 @@ CAPPABOT = int(os.getenv("DISCORD_CAPPABOT_ID"))
 
 # Constant variables
 DEBUG = False
+REACTION_IMAGE_PATH = "../reactionImages/"
+REACTION_IMAGE_NAMES = os.listdir(REACTION_IMAGE_PATH)
 
 # Basic variables
 personToReact = 0
@@ -93,7 +95,8 @@ async def on_message(message):
 			if message.author.id == personToReact:
 				# React to them
 				print("I should react to that")
-				await message.reply("[reaction image]")
+				reactionImage = REACTION_IMAGE_PATH + random.choice(REACTION_IMAGE_NAMES)
+				await message.reply("", file=discord.File(reactionImage))
 			
 			# Check if I need to copy the person
 			if message.author.id == personToCopy:
