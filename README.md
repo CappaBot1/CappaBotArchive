@@ -1,3 +1,3 @@
-This is my bot
-Probably don't use it
+This is my bot\n
+Probably don't use it\n
 I am testing GIT
