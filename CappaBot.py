@@ -12,8 +12,6 @@ print("CappaBot has started loading...")
 # Enivornment variables
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
-SERVER = os.getenv("DISCORD_GUILD")
-CHANNEL = int(os.getenv("DISCORD_CHANNEL_ID"))
 CAPPABOT = int(os.getenv("DISCORD_CAPPABOT_ID"))
 
 # Constant variables
@@ -26,7 +24,6 @@ personToReact = 0
 personToCopy = 0
 
 print(f"Last 5 digits of token: {TOKEN[-5:]}")
-print(f"Channel ID: {CHANNEL}")
 print(f"CappaBot ID: {CAPPABOT}")
 
 # intents = discord.Intents(3136)
@@ -49,8 +46,8 @@ async def on_ready():
 		user = client.get_user(CAPPABOT)
 		await user.send("Cappa Bot has started")
 
-		channel = client.get_channel(CHANNEL)
-		await channel.send("Cappa Bot is online")
+		#channel = client.get_channel(CHANNEL)
+		#await channel.send("Cappa Bot is online")
 
 # When someone send a message
 @client.event
@@ -172,6 +169,6 @@ async def on_message(message):
 
 client.run(TOKEN)
 
-CHANNEL.send("Cappa Bot died :(")
+#CHANNEL.send("Cappa Bot died :(")
 
 print("Cappa Bot has ended.") 
