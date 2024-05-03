@@ -18,19 +18,27 @@ CAPPABOT = int(os.getenv("DISCORD_CAPPABOT_ID"))
 DEBUG = False
 REACTION_IMAGE_PATH = "../reactionImages/"
 REACTION_IMAGE_NAMES = os.listdir(REACTION_IMAGE_PATH)
+SERVER = 948070330486882355
 
 # Basic variables
 personToReact = 0
 personToCopy = 0
 
-print(f"Last 5 digits of token: {TOKEN[-5:]}")
+print(f"Last 4 digits of bot token: {TOKEN[-4:]}")
 print(f"CappaBot ID: {CAPPABOT}")
 
-# intents = discord.Intents(3136)
 intents = discord.Intents.all()
-#intents.members = True
 
 client = discord.Client(intents=intents)
+tree = app_commands.CommandTree(client)
+
+@tree.command(
+    name="test",
+    description="Testing command",
+    guild=discord.Object(id=SERVER)
+)
+async def first_command(interaction):
+    await interaction.response.send_message("Hello!")
 
 @client.event
 async def on_ready():
