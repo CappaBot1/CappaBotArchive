@@ -1,6 +1,6 @@
 import asyncio
 import discord
-from discord.ext import commands
+from discord import app_commands
 import os
 import sys
 import random
@@ -30,14 +30,7 @@ print(f"CappaBot ID: {CAPPABOT}")
 intents = discord.Intents.all()
 #intents.members = True
 
-#client = discord.Client(intents=intents)
-bot = commands.Bot(command_prefix='$', intents=intents)
-
-@commands.command()
-async def test(ctx, args):
-	print("test")
-	print(f"ctx: {ctx}")
-	print(f"args: {args}")
+client = discord.Client(intents=intents)
 
 @client.event
 async def on_ready():
