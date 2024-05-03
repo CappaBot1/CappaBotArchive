@@ -21,8 +21,6 @@ DEBUG = False
 # Basic variables
 personToReact = 0
 
-print(f"I am placed at: {os.path}")
-
 print(f"Last 5 digits of token: {TOKEN[-5:]}")
 print(f"Channel ID: {CHANNEL}")
 print(f"CappaBot ID: {CAPPABOT}")
@@ -58,7 +56,7 @@ async def on_message(message):
 
 			# If the message was sent by me
 			if message.author.name == "Cappa Bot":
-				print(f"Message was sent by me in: {message.guild.name} > {message.channel.name}")
+				print(f"Message was sent by me in: {message.guild.name} > {message.channel.name} | {message.contents}")
 			# If the message was sent by dad bot
 			if message.author.name == "Dad Bot":
 				# Say shut up dad bot
@@ -87,17 +85,18 @@ async def on_message(message):
 			if message.content.lower()[:5] == "react":
 				personToReact = int(message.content[8:-1])
 				print(f"I should react to: {personToReact}")
-				await message.channel.send(f"I will react to {personToReact}")
-				
-
-		
+				await message.channel.send(f"I will react to <@{personToReact}>")
+	
 	# If the message was sent in a text channel
 	else:
 		print(f"""Message in DM's. Details:
-	Sent from: {message.author.name} / {message.author.global_name}""")
+	Sent from: {message.author.name} / {message.author.global_name}
+	Contents: {message.contents}""")
 		
 	print("-"*50)
 
 client.run(TOKEN)
 
-print("Cappa Bot has ended.")
+CHANNEL.send("Cappa Bot died :(")
+
+print("Cappa Bot has ended.") 
