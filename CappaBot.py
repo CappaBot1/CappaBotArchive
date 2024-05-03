@@ -50,6 +50,18 @@ async def on_message(message):
 	global personToCopy
 	# Print the message info
 	print(message)
+
+	# Try parse the data into command and data
+	try:
+		command = message.content.lower().split(" ", 1)[0]
+		data = " ".join(message.content.split()[1:])
+		if DEBUG:
+			print(f"Command: {command}")
+			print(f"Data: {data}")
+	
+	# It might just be a command
+	except:
+		command = message.content.lower()
 	# If the message was sent in a DM to the bot
 	if message.guild:
 		# If the message was sent by a bot
@@ -89,16 +101,19 @@ async def on_message(message):
 				print("I should copy that")
 				await message.channel.send(message.content)
 
-			# Check if it was a command
-			if message.content.lower() == "stop":
+			# Stop command
+			if command == "stop":
 				print("I should stop now")
 				await message.channel.send("Ok, I'll stop now.")
 				sys.exit("Someone told me to stop.")
-			elif message.content.lower()[:5] == "react":
+
+			# React command
+			elif command == "react":
 				personToReact = int(message.content[8:-1])
 				print(f"I will react to: {personToReact}")
 				await message.channel.send(f"I will react to <@{personToReact}>")
 
+			# Copy command
 			elif message.content.lower()[:4] == "copy":
 				personToCopy = int(message.content[7:-1])
 				print(f"I will copy: {personToCopy}")
@@ -110,6 +125,36 @@ async def on_message(message):
 	Sent from: {message.author.name} / {message.author.global_name}
 	Contents: {message.content}""")
 		
+	# Check DM command
+	if command == "say":
+		channelToSend = "0"
+		toSend = "none"
+
+		print("I will try to say something.")
+		print(data)
+		try:
+			print("Trying to split")
+			channelToSend, toSend = data.split(" ", 1)
+			print("I split it")
+		except:
+			print("Failed to split")
+			await message.channel.send("Invalid amount of parameters")
+		
+		print(channelToSend)
+		print(toSend)
+
+		print("Trying to conver channel ID to integer")
+		if channelToSend.isnumeric():
+			channelToSend = int(channelToSend)
+			print("Changed to integer")
+		else:
+			await message.channel.send("Invalid channel ID, must be a number")
+
+		print(type(channelToSend))
+
+		print(f"Message: '{toSend}' was sent by {message.author.name}.")
+		await client.get_channel(channelToSend).send(toSend)
+	
 	print("-"*50)
 
 client.run(TOKEN)
