@@ -1,5 +1,6 @@
 import asyncio
 import discord
+from discord.ext import commands
 import os
 import sys
 import random
@@ -33,6 +34,12 @@ intents = discord.Intents.all()
 #intents.members = True
 
 client = discord.Client(intents=intents)
+
+@commands.command()
+async def test(ctx, args):
+	print("test")
+	print(f"ctx: {ctx}")
+	print(f"args: {args}")
 
 @client.event
 async def on_ready():
