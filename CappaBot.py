@@ -46,6 +46,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
 	global personToReact
+	global personToCopy
 	# Print the message info
 	print(message)
 	# If the message was sent in a DM to the bot
@@ -82,10 +83,19 @@ async def on_message(message):
 				await message.reply("[reaction image]")
 
 			# Check if it was a command
-			if message.content.lower()[:5] == "react":
+			if message.content.lower() == "stop":
+				message.channel.send("Ok, I'll stop now.")
+				print("I should stop now")
+				sys.exit("Someone told me to stop.")
+			elif message.content.lower()[:5] == "react":
 				personToReact = int(message.content[8:-1])
-				print(f"I should react to: {personToReact}")
+				print(f"I will react to: {personToReact}")
 				await message.channel.send(f"I will react to <@{personToReact}>")
+
+			elif message.content.lower()[:4] == "copy":
+				personToCopy = int(message.content[7:-1])
+				print(f"I will copy: {personToCopy}")
+				await message.channel.send(f"I will copy <@{personToCopy}>")
 	
 	# If the message was sent in a text channel
 	else:
