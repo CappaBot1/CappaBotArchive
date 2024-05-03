@@ -90,20 +90,9 @@ async def on_message(message):
 			# Check if from Niv
 			#if message.author.name == "drporknswine":
 			#	await message.channel.send("<@783924515549347870> said something")
-   
-			# Check if I need to react to the person
-			if message.author.id == personToReact:
-				# React to them
-				print("I should react to that")
-				reactionImage = REACTION_IMAGE_PATH + random.choice(REACTION_IMAGE_NAMES)
-				await message.reply("", file=discord.File(reactionImage))
-			
-			# Check if I need to copy the person
-			if message.author.id == personToCopy:
-				# Copy them
-				print("I should copy that")
-				await message.channel.send(message.content)
 
+			# Check if the message is a command
+			
 			# Stop command
 			if command == "stop":
 				print("I should stop now")
@@ -121,7 +110,21 @@ async def on_message(message):
 				personToCopy = int(message.content[7:-1])
 				print(f"I will copy: {personToCopy}")
 				await message.channel.send(f"I will copy <@{personToCopy}>")
-	
+
+
+			# Check if I need to react to the person
+			if message.author.id == personToReact:
+				# React to them
+				print("I should react to that")
+				reactionImage = REACTION_IMAGE_PATH + random.choice(REACTION_IMAGE_NAMES)
+				await message.reply("", file=discord.File(reactionImage))
+			
+			# Check if I need to copy the person
+			if message.author.id == personToCopy:
+				# Copy them
+				print("I should copy that")
+				await message.channel.send(message.content)
+
 	# If the message was sent in a text channel
 	else:
 		print(f"""Message in DM's. Details:
