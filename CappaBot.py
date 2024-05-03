@@ -30,7 +30,8 @@ print(f"CappaBot ID: {CAPPABOT}")
 intents = discord.Intents.all()
 #intents.members = True
 
-client = discord.Client(intents=intents)
+#client = discord.Client(intents=intents)
+bot = commands.Bot(command_prefix='$', intents=intents)
 
 @commands.command()
 async def test(ctx, args):
