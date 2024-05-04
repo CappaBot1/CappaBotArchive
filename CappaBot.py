@@ -15,7 +15,7 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 CAPPABOT = int(os.getenv("DISCORD_CAPPABOT_ID"))
 
 # Constant variables
-DEBUG = False
+DEBUG = True
 REACTION_IMAGE_PATH = "../reactionImages/"
 REACTION_IMAGE_NAMES = os.listdir(REACTION_IMAGE_PATH)
 SERVER = 948070330486882355
@@ -43,6 +43,8 @@ async def first_command(interaction):
 @client.event
 async def on_ready():
 	print(f'{client.user} has connected to Discord!')
+
+	await tree.sync(guild=discord.Object(id=SERVER))
 
 	if DEBUG:
 		user = client.get_user(CAPPABOT)
