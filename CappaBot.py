@@ -9,9 +9,7 @@ from dotenv import load_dotenv
 # CappaBot.py
 print("CappaBot has started loading...")
 
-intents = discord.Intents.all()
-client = discord.Client(intents=intents)
-tree = app_commands.CommandTree(client)
+client = discord.Client(intents=discord.Intents.all())
 
 # Enivornment variables
 load_dotenv()
@@ -19,11 +17,10 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 CAPPABOT = int(os.getenv("DISCORD_CAPPABOT_ID"))
 
 # Constant variables
-DEBUG = True
+DEBUG = False
 REACTION_IMAGE_PATH = "../reactionImages/"
 REACTION_IMAGE_NAMES = os.listdir(REACTION_IMAGE_PATH)
 SERVER = 948070330486882355
-VOICE_CHANNEL = client.get_channel(948070330486882359)
 
 # Basic variables
 personToReact = 0
@@ -32,13 +29,28 @@ personToCopy = 0
 print(f"Last 4 digits of bot token: {TOKEN[-4:]}")
 print(f"CappaBot ID: {CAPPABOT}")
 
+tree = discord.app_commands.CommandTree(client)
+
+testgroup = app_commands.Group(name="testgroup", description="Testing group")
+
+@testgroup.command()
+async def testa(interaction):
+	await interaction.response.send_message("Doing test a")
+
+@testgroup.command()
+async def testb(interaction):
+	await interaction.response.send_message("Doing test b")
+
+tree.add_command(testgroup)
+
 @tree.command(
-    name="test",
-    description="Testing command",
+    name="voice",
+    description="Voice call",
     guild=discord.Object(id=SERVER)
 )
-async def first_command(interaction):
-    await interaction.response.send_message("Hello!")
+async def voice(interaction):
+	print("Voice command")
+	await interaction.response.send_message("You did the voice command")
 
 @client.event
 async def on_ready():
