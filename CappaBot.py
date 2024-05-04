@@ -9,6 +9,10 @@ from dotenv import load_dotenv
 # CappaBot.py
 print("CappaBot has started loading...")
 
+intents = discord.Intents.all()
+client = discord.Client(intents=intents)
+tree = app_commands.CommandTree(client)
+
 # Enivornment variables
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -19,6 +23,7 @@ DEBUG = True
 REACTION_IMAGE_PATH = "../reactionImages/"
 REACTION_IMAGE_NAMES = os.listdir(REACTION_IMAGE_PATH)
 SERVER = 948070330486882355
+VOICE_CHANNEL = client.get_channel(948070330486882359)
 
 # Basic variables
 personToReact = 0
@@ -26,11 +31,6 @@ personToCopy = 0
 
 print(f"Last 4 digits of bot token: {TOKEN[-4:]}")
 print(f"CappaBot ID: {CAPPABOT}")
-
-intents = discord.Intents.all()
-
-client = discord.Client(intents=intents)
-tree = app_commands.CommandTree(client)
 
 @tree.command(
     name="test",
