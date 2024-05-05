@@ -9,8 +9,6 @@ from dotenv import load_dotenv
 # CappaBot.py
 print("CappaBot has started loading...")
 
-client = discord.Client(intents=discord.Intents.all())
-
 # Enivornment variables
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -20,7 +18,7 @@ CAPPABOT = int(os.getenv("DISCORD_CAPPABOT_ID"))
 DEBUG = False
 REACTION_IMAGE_PATH = "../reactionImages/"
 REACTION_IMAGE_NAMES = os.listdir(REACTION_IMAGE_PATH)
-SERVER = 948070330486882355
+SERVER = discord.Object(948070330486882355)
 
 # Basic variables
 personToReact = 0
@@ -28,25 +26,30 @@ personToCopy = 0
 
 print(f"Last 4 digits of bot token: {TOKEN[-4:]}")
 print(f"CappaBot ID: {CAPPABOT}")
+print(f"Server: {SERVER}")
 
-tree = discord.app_commands.CommandTree(client)
+class MyClient(discord.Client):
+    def __init__(self, *, intents: discord.Intents):
+        super().__init__(intents=intents)
+        self.tree = app_commands.CommandTree(self)
 
-testgroup = app_commands.Group(name="testgroup", description="Testing group")
+    async def setup_hook(self):
+        self.tree.copy_global_to(guild=SERVER)
+        await self.tree.sync(guild=SERVER)
 
-@testgroup.command()
-async def testa(interaction):
-	await interaction.response.send_message("Doing test a")
+client = MyClient(intents=discord.Intents.all())
 
-@testgroup.command()
-async def testb(interaction):
-	await interaction.response.send_message("Doing test b")
+@client.tree.command(
+	name="ping",
+	description="I will reply 'pong' as fast as I can."
+)
+async def ping(interaction):
+	print("Got ping command")
+	await interaction.response.send_message("Pong")
 
-tree.add_command(testgroup)
-
-@tree.command(
+@client.tree.command(
     name="voice",
     description="Voice call",
-    guild=discord.Object(id=SERVER)
 )
 async def voice(interaction):
 	print("Voice command")
@@ -55,8 +58,6 @@ async def voice(interaction):
 @client.event
 async def on_ready():
 	print(f'{client.user} has connected to Discord!')
-
-	await tree.sync(guild=discord.Object(id=SERVER))
 
 	if DEBUG:
 		user = client.get_user(CAPPABOT)
