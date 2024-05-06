@@ -28,14 +28,10 @@ print(f"Last 4 digits of bot token: {TOKEN[-4:]}")
 print(f"CappaBot ID: {CAPPABOT}")
 print(f"Server: {SERVER}")
 
-class MyClient(discord.Client):
-    def __init__(self, *, intents: discord.Intents):
-        super().__init__(intents=intents)
-        self.tree = app_commands.CommandTree(self)
+client = discord.Client(intents=discord.Intents.all())
+tree = app_commands.CommandTree(client)
 
-client = MyClient(intents=discord.Intents.all())
-
-@client.tree.command(
+@tree.command(
 	description="I will reply with 'pong' as fast as I can."
 )
 async def ping(interaction):
@@ -43,14 +39,15 @@ async def ping(interaction):
 	print(interaction)
 	await interaction.response.send_message("Pong")
 
-@client.tree.command(
+@tree.command(
 	description="Stop me."
 )
 async def stop(interaction):
+	print("Stopping from the stop command.")
 	await interaction.response.send_message("Ok, I'll stop now.")
 	sys.exit("Someone told me to stop.")
 
-@client.tree.command(
+@tree.command(
 	description="I will react to the user you specify."
 )
 async def react(interaction):
@@ -59,7 +56,7 @@ async def react(interaction):
 	personToReact = 797563949204897893
 	await interaction.response.send_message("I will react to [cappa]")
 
-@client.tree.command(
+@tree.command(
 	description="I will copy the user you specify."
 )
 async def copy(interaction):
@@ -90,10 +87,10 @@ async def on_ready():
 	print(f'{client.user} has connected to Discord!')
 
 	voiceGroup = VoiceGroup(name="voice", description="The voice commands can make me connect and disconnect from a voice call.")
-	client.tree.add_command(voiceGroup)
+	tree.add_command(voiceGroup)
 
-	client.tree.copy_global_to(guild=SERVER)
-	await client.tree.sync(guild=SERVER)
+	tree.copy_global_to(guild=SERVER)
+	await tree.sync(guild=SERVER)
 
 	if DEBUG:
 		user = client.get_user(CAPPABOT)
