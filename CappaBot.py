@@ -5,7 +5,7 @@ import os
 import sys
 import random
 from dotenv import load_dotenv
-# Casper changes here
+
 # CappaBot.py
 print("CappaBot has started loading...")
 
