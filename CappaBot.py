@@ -33,31 +33,67 @@ class MyClient(discord.Client):
         super().__init__(intents=intents)
         self.tree = app_commands.CommandTree(self)
 
-    async def setup_hook(self):
-        self.tree.copy_global_to(guild=SERVER)
-        await self.tree.sync(guild=SERVER)
-
 client = MyClient(intents=discord.Intents.all())
 
 @client.tree.command(
-	name="ping",
-	description="I will reply 'pong' as fast as I can."
+	description="I will reply with 'pong' as fast as I can."
 )
 async def ping(interaction):
 	print("Got ping command")
+	print(interaction)
 	await interaction.response.send_message("Pong")
 
 @client.tree.command(
-    name="voice",
-    description="Voice call",
+	description="Stop me."
 )
-async def voice(interaction):
-	print("Voice command")
-	await interaction.response.send_message("You did the voice command")
+async def stop(interaction):
+	await interaction.response.send_message("Ok, I'll stop now.")
+	sys.exit("Someone told me to stop.")
+
+@client.tree.command(
+	description="I will react to the user you specify."
+)
+async def react(interaction):
+	global personToReact
+	print("I should react to")
+	personToReact = 797563949204897893
+	await interaction.response.send_message("I will react to [cappa]")
+
+@client.tree.command(
+	description="I will copy the user you specify."
+)
+async def copy(interaction):
+	global personToCopy
+	print("I should copy")
+	personToCopy = 797563949204897893
+	await interaction.response.send_message("I will copy [cappa]")
+
+class VoiceGroup(app_commands.Group):
+	@app_commands.command(
+		name="connect",
+		description="Connect to a voice channel"
+	)
+	async def connect(self, interaction):
+		print("Connect command")
+		await interaction.response.send_message("I will connect to")
+
+	@app_commands.command(
+		name="disconnect",
+		description="Disconnect from the current voice call I am in."
+	)
+	async def disconnect(self, interaction):
+		print("Disconnect command")
+		await interaction.response.send_message("Disconnecting...")
 
 @client.event
 async def on_ready():
 	print(f'{client.user} has connected to Discord!')
+
+	voiceGroup = VoiceGroup(name="voice", description="The voice commands can make me connect and disconnect from a voice call.")
+	client.tree.add_command(voiceGroup)
+
+	client.tree.copy_global_to(guild=SERVER)
+	await client.tree.sync(guild=SERVER)
 
 	if DEBUG:
 		user = client.get_user(CAPPABOT)
@@ -74,17 +110,6 @@ async def on_message(message):
 	# Print the message info
 	print(message)
 
-	# Try parse the data into command and data
-	try:
-		command = message.content.lower().split(" ", 1)[0]
-		data = " ".join(message.content.split()[1:])
-		if DEBUG:
-			print(f"Command: {command}")
-			print(f"Data: {data}")
-	
-	# It might just be a command
-	except:
-		command = message.content.lower()
 	# If the message was sent in a DM to the bot
 	if message.guild:
 		# If the message was sent by a bot
@@ -112,27 +137,6 @@ async def on_message(message):
 			#if message.author.name == "drporknswine":
 			#	await message.channel.send("<@783924515549347870> said something")
 
-			# Check if the message is a command
-			
-			# Stop command
-			if command == "stop":
-				print("I should stop now")
-				await message.channel.send("Ok, I'll stop now.")
-				sys.exit("Someone told me to stop.")
-
-			# React command
-			elif command == "react":
-				personToReact = int(message.content[8:-1])
-				print(f"I will react to: {personToReact}")
-				await message.channel.send(f"I will react to <@{personToReact}>")
-
-			# Copy command
-			elif message.content.lower()[:4] == "copy":
-				personToCopy = int(message.content[7:-1])
-				print(f"I will copy: {personToCopy}")
-				await message.channel.send(f"I will copy <@{personToCopy}>")
-
-
 			# Check if I need to react to the person
 			if message.author.id == personToReact:
 				# React to them
@@ -151,36 +155,6 @@ async def on_message(message):
 		print(f"""Message in DM's. Details:
 	Sent from: {message.author.name} / {message.author.global_name}
 	Contents: {message.content}""")
-		
-	# Check DM command
-	if command == "say":
-		channelToSend = "0"
-		toSend = "none"
-
-		print("I will try to say something.")
-		print(data)
-		try:
-			print("Trying to split")
-			channelToSend, toSend = data.split(" ", 1)
-			print("I split it")
-		except:
-			print("Failed to split")
-			await message.channel.send("Invalid amount of parameters")
-		
-		print(channelToSend)
-		print(toSend)
-
-		print("Trying to conver channel ID to integer")
-		if channelToSend.isnumeric():
-			channelToSend = int(channelToSend)
-			print("Changed to integer")
-		else:
-			await message.channel.send("Invalid channel ID, must be a number")
-
-		print(type(channelToSend))
-
-		print(f"Message: '{toSend}' was sent by {message.author.name}.")
-		await client.get_channel(channelToSend).send(toSend)
 	
 	print("-"*50)
 
