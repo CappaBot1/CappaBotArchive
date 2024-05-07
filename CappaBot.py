@@ -6,7 +6,6 @@ import sys
 import random
 from dotenv import load_dotenv
 
-# Cappa School changes
 # CappaBot.py
 print("CappaBot has started loading...")
 
@@ -25,13 +24,18 @@ SERVER = discord.Object(948070330486882355)
 personToReact = 0
 personToCopy = 0
 
+# Print some info
 print(f"Last 4 digits of bot token: {TOKEN[-4:]}")
 print(f"CappaBot ID: {CAPPABOT}")
 print(f"Server: {SERVER.id}")
 
+# Make the discord client
 client = discord.Client(intents=discord.Intents.all())
+
+# Make the command tree
 tree = app_commands.CommandTree(client)
 
+# Stop command. Will stop the program from running.
 @tree.command(
 	description="Stop me."
 )
@@ -40,13 +44,18 @@ async def stop(interaction: discord.Interaction):
 	await interaction.response.send_message("Ok, I'll stop now.")
 	sys.exit("Someone told me to stop.")
 
+# Testing command. Subject to change.
 @tree.command(
 	description="Testing command"
 )
 async def test(interaction: discord.Interaction):
 	print("Test")
-	await interaction.response.send_message("Done testing.")
+	await interaction.response.send_message("Testing...")
+	for i in range(25):
+		await interaction.edit_original_response(content=f"Testing number {i}\n{'-'*(i**2)}")
+	await interaction.followup.send("Done testing.")
 
+# Ping command. Reply with "pong" asap
 @tree.command(
 	description="I will reply with 'pong' as fast as I can."
 )
@@ -55,6 +64,7 @@ async def ping(interaction: discord.Interaction):
 	print(interaction)
 	await interaction.response.send_message("Pong")
 
+# React command. Give a user to react to. If blank, don't react to anyone
 @tree.command(
 	description="I will react to the user you specify."
 )
@@ -64,6 +74,7 @@ async def react(interaction: discord.Interaction, member: discord.Member):
 	personToReact = str(member)
 	await interaction.response.send_message(f"I will react to {personToReact}")
 
+# Copy command. Giva a user to copy. If blank, don't copy anyone
 @tree.command(
 	description="I will copy the user you specify."
 )
@@ -73,26 +84,31 @@ async def copy(interaction: discord.Interaction, member: discord.Member):
 	personToCopy = str(member)
 	await interaction.response.send_message(f"I will copy {personToCopy}")
 
+# The voice commands
 class VoiceGroup(app_commands.Group):
+	# Connect to a voice channel
 	@app_commands.command(
 		name="connect",
 		description="Connect to a voice channel"
 	)
 	async def connect(self, interaction: discord.Interaction, channel: discord.VoiceChannel):
 		print(f"Connect command on {channel}")
-		await interaction.response.send_message(f"I will connect to {channel}")
+		await interaction.response.send_message(f"Trying to connect to {channel}.")
 		await channel.connect()
+		await interaction.response.edit_message(content=f"Connected to {channel}.")
 
+	# Disconnect from a voice channel
 	@app_commands.command(
 		name="disconnect",
 		description="Disconnect from the current voice call I am in."
 	)
 	async def disconnect(self, interaction: discord.Interaction):
 		print("Disconnect command")
-		await interaction.response.send_message("Disconnecting...")
+		await interaction.response.send_message("Trying to disconnect.")
 		for voice_client in client.voice_clients:
 			if voice_client.guild == interaction.guild:
 				await voice_client.disconnect()
+		await interaction.response.edit_message(content="Disconnected.")
 
 @client.event
 async def on_ready():
@@ -142,9 +158,9 @@ async def on_message(message):
 	Sent from: {message.author}
 	Contents: {message.content}""")
 			
-			# Check if from Niv
-			#if message.author.name == "drporknswine":
-			#	await message.channel.send("<@783924515549347870> said something")
+			# Check if 'wrong' is in the message and say something if there is.
+			if "wrong" in message.content:
+				await message.channel.send("Haha, you said 'wrong'. Get timed out.")
 
 			# Check if I need to react to the person
 			if message.author.name == personToReact:
