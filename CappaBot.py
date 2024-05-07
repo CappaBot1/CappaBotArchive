@@ -20,7 +20,6 @@ DEBUG = False
 REACTION_IMAGE_PATH = "../reactionImages/"
 REACTION_IMAGE_NAMES = os.listdir(REACTION_IMAGE_PATH)
 SERVER = discord.Object(948070330486882355)
-VOICE_CHANNEL = 948070330486882359
 
 # Basic variables
 personToReact = 0
@@ -36,7 +35,7 @@ tree = app_commands.CommandTree(client)
 @tree.command(
 	description="Stop me."
 )
-async def stop(interaction):
+async def stop(interaction: discord.Interaction):
 	print("Stopping from the stop command.")
 	await interaction.response.send_message("Ok, I'll stop now.")
 	sys.exit("Someone told me to stop.")
@@ -44,19 +43,14 @@ async def stop(interaction):
 @tree.command(
 	description="Testing command"
 )
-async def test(interaction):
+async def test(interaction: discord.Interaction):
 	print("Test")
-	chanID = discord.utils.get(interaction.guild.channels, name="vc2")
-	print(chanID)
-	channel = await client.fetch_channel(VOICE_CHANNEL)
-	print(channel)
-	await channel.disconnect()
 	await interaction.response.send_message("Done testing.")
 
 @tree.command(
 	description="I will reply with 'pong' as fast as I can."
 )
-async def ping(interaction):
+async def ping(interaction: discord.Interaction):
 	print("Got ping command")
 	print(interaction)
 	await interaction.response.send_message("Pong")
@@ -64,7 +58,7 @@ async def ping(interaction):
 @tree.command(
 	description="I will react to the user you specify."
 )
-async def react(interaction, member: discord.Member):
+async def react(interaction: discord.Interaction, member: discord.Member):
 	global personToReact
 	print(f"I should react to {member}")
 	personToReact = str(member)
@@ -73,7 +67,7 @@ async def react(interaction, member: discord.Member):
 @tree.command(
 	description="I will copy the user you specify."
 )
-async def copy(interaction, member: discord.Member):
+async def copy(interaction: discord.Interaction, member: discord.Member):
 	global personToCopy
 	print(f"I should copy {member}")
 	personToCopy = str(member)
@@ -84,21 +78,21 @@ class VoiceGroup(app_commands.Group):
 		name="connect",
 		description="Connect to a voice channel"
 	)
-	async def connect(self, interaction, channel: discord.VoiceChannel):
+	async def connect(self, interaction: discord.Interaction, channel: discord.VoiceChannel):
 		print(f"Connect command on {channel}")
-		#channel_id = VOICE_CHANNEL
 		await interaction.response.send_message(f"I will connect to {channel}")
-		#voice_channel = await client.fetch_channel(channel_id)
-		#print("Voice channel:", voice_channel)
 		await channel.connect()
 
 	@app_commands.command(
 		name="disconnect",
 		description="Disconnect from the current voice call I am in."
 	)
-	async def disconnect(self, interaction):
+	async def disconnect(self, interaction: discord.Interaction):
 		print("Disconnect command")
 		await interaction.response.send_message("Disconnecting...")
+		for voice_client in client.voice_clients:
+			if voice_client.guild == interaction.guild:
+				await voice_client.disconnect()
 
 @client.event
 async def on_ready():
