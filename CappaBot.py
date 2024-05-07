@@ -19,6 +19,7 @@ DEBUG = False
 REACTION_IMAGE_PATH = "../reactionImages/"
 REACTION_IMAGE_NAMES = os.listdir(REACTION_IMAGE_PATH)
 SERVER = discord.Object(948070330486882355)
+VOICE_CHANNEL = 948070330486882359
 
 # Basic variables
 personToReact = 0
@@ -26,7 +27,7 @@ personToCopy = 0
 
 print(f"Last 4 digits of bot token: {TOKEN[-4:]}")
 print(f"CappaBot ID: {CAPPABOT}")
-print(f"Server: {SERVER}")
+print(f"Server: {SERVER.id}")
 
 client = discord.Client(intents=discord.Intents.all())
 tree = app_commands.CommandTree(client)
@@ -44,6 +45,11 @@ async def stop(interaction):
 )
 async def test(interaction):
 	print("Test")
+	chanID = discord.utils.get(interaction.guild.channels, name="vc2")
+	print(chanID)
+	channel = await client.fetch_channel(VOICE_CHANNEL)
+	print(channel)
+	await channel.disconnect()
 	await interaction.response.send_message("Done testing.")
 
 @tree.command(
@@ -79,8 +85,11 @@ class VoiceGroup(app_commands.Group):
 	)
 	async def connect(self, interaction, channel: discord.VoiceChannel):
 		print(f"Connect command on {channel}")
-		channelID = discord.utils.get(client.get_all_channels(), name=channel)
-		await interaction.response.send_message(f"I will connect to {channel} / {channelID}")
+		#channel_id = VOICE_CHANNEL
+		await interaction.response.send_message(f"I will connect to {channel}")
+		#voice_channel = await client.fetch_channel(channel_id)
+		#print("Voice channel:", voice_channel)
+		await channel.connect()
 
 	@app_commands.command(
 		name="disconnect",
