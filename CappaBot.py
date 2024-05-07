@@ -1,9 +1,5 @@
-import asyncio
-import discord
+import asyncio, discord, os, random, sys, typing
 from discord import app_commands
-import os
-import sys
-import random
 from dotenv import load_dotenv
 
 # CappaBot.py
@@ -68,20 +64,34 @@ async def ping(interaction: discord.Interaction):
 @tree.command(
 	description="I will react to the user you specify."
 )
-async def react(interaction: discord.Interaction, member: discord.Member):
+async def react(interaction: discord.Interaction, member: typing.Optional[discord.Member] = None):
 	global personToReact
-	print(f"I should react to {member}")
-	personToReact = str(member)
+
+	# If a user was given, react to them
+	if member:
+		personToReact = str(member)
+	# Else, react to no_one
+	else:
+		personToReact = "no one"
+
+	# Say who I will react to
 	await interaction.response.send_message(f"I will react to {personToReact}")
 
 # Copy command. Giva a user to copy. If blank, don't copy anyone
 @tree.command(
 	description="I will copy the user you specify."
 )
-async def copy(interaction: discord.Interaction, member: discord.Member):
+async def copy(interaction: discord.Interaction, member: typing.Optional[discord.Member] = None):
 	global personToCopy
-	print(f"I should copy {member}")
-	personToCopy = str(member)
+
+	# If a user was given, copy them
+	if member:
+		personToCopy = str(member)
+	# Else, copy no_one
+	else:
+		personToCopy = "no one"
+
+	# Say who I will copy
 	await interaction.response.send_message(f"I will copy {personToCopy}")
 
 # The voice commands
