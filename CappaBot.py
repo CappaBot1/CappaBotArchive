@@ -6,6 +6,7 @@ import sys
 import random
 from dotenv import load_dotenv
 
+# Cappa School changes
 # CappaBot.py
 print("CappaBot has started loading...")
 
