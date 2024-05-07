@@ -32,14 +32,6 @@ client = discord.Client(intents=discord.Intents.all())
 tree = app_commands.CommandTree(client)
 
 @tree.command(
-	description="I will reply with 'pong' as fast as I can."
-)
-async def ping(interaction):
-	print("Got ping command")
-	print(interaction)
-	await interaction.response.send_message("Pong")
-
-@tree.command(
 	description="Stop me."
 )
 async def stop(interaction):
@@ -48,31 +40,50 @@ async def stop(interaction):
 	sys.exit("Someone told me to stop.")
 
 @tree.command(
+	description="Testing command"
+)
+async def test(interaction):
+	print(client.get_all_channels())
+	testvar = client.get_all_channels()
+	for thing in testvar:
+		print(thing)
+	await interaction.response.send_message("Done testing.")
+
+@tree.command(
+	description="I will reply with 'pong' as fast as I can."
+)
+async def ping(interaction):
+	print("Got ping command")
+	print(interaction)
+	await interaction.response.send_message("Pong")
+
+@tree.command(
 	description="I will react to the user you specify."
 )
-async def react(interaction):
+async def react(interaction, member: discord.Member):
 	global personToReact
-	print("I should react to")
-	personToReact = 797563949204897893
-	await interaction.response.send_message("I will react to [cappa]")
+	print(f"I should react to {member}")
+	personToReact = str(member)
+	await interaction.response.send_message(f"I will react to {personToReact}")
 
 @tree.command(
 	description="I will copy the user you specify."
 )
-async def copy(interaction):
+async def copy(interaction, member: discord.Member):
 	global personToCopy
-	print("I should copy")
-	personToCopy = 797563949204897893
-	await interaction.response.send_message("I will copy [cappa]")
+	print(f"I should copy {member}")
+	personToCopy = str(member)
+	await interaction.response.send_message(f"I will copy {personToCopy}")
 
 class VoiceGroup(app_commands.Group):
 	@app_commands.command(
 		name="connect",
 		description="Connect to a voice channel"
 	)
-	async def connect(self, interaction):
-		print("Connect command")
-		await interaction.response.send_message("I will connect to")
+	async def connect(self, interaction, channel: discord.VoiceChannel):
+		print(f"Connect command on {channel}")
+		channelID = discord.utils.get(client.get_all_channels(), name=channel)
+		await interaction.response.send_message(f"I will connect to {channel} / {channelID}")
 
 	@app_commands.command(
 		name="disconnect",
@@ -135,14 +146,14 @@ async def on_message(message):
 			#	await message.channel.send("<@783924515549347870> said something")
 
 			# Check if I need to react to the person
-			if message.author.id == personToReact:
+			if message.author.name == personToReact:
 				# React to them
 				print("I should react to that")
 				reactionImage = REACTION_IMAGE_PATH + random.choice(REACTION_IMAGE_NAMES)
 				await message.reply("", file=discord.File(reactionImage))
 			
 			# Check if I need to copy the person
-			if message.author.id == personToCopy:
+			if message.author.name == personToCopy:
 				# Copy them
 				print("I should copy that")
 				await message.channel.send(message.content)
