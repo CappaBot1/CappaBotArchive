@@ -62,7 +62,7 @@ async def ping(interaction: discord.Interaction):
 
 # React command. Give a user to react to. If blank, don't react to anyone
 @tree.command(
-	description="I will react to the user you specify."
+	description="I will react to the user you specify. If no user is given, I will stop reacting to the current person"
 )
 async def react(interaction: discord.Interaction, member: typing.Optional[discord.Member] = None):
 	global personToReact
@@ -79,7 +79,7 @@ async def react(interaction: discord.Interaction, member: typing.Optional[discor
 
 # Copy command. Giva a user to copy. If blank, don't copy anyone
 @tree.command(
-	description="I will copy the user you specify."
+	description="I will copy the user you specify. If no user is given, I will stop copying the current person."
 )
 async def copy(interaction: discord.Interaction, member: typing.Optional[discord.Member] = None):
 	global personToCopy
@@ -123,11 +123,14 @@ class VoiceGroup(app_commands.Group):
 @client.event
 async def on_ready():
 	print(f'{client.user} has connected to Discord!')
-
+	
+	# Add the voice commands to the command tree
 	voiceGroup = VoiceGroup(name="voice", description="The voice commands can make me connect and disconnect from a voice call.")
 	tree.add_command(voiceGroup)
 
+	# Copy the commands to the server
 	tree.copy_global_to(guild=SERVER)
+	# Sync the commands to the server
 	await tree.sync(guild=SERVER)
 
 	if DEBUG:
