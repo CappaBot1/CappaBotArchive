@@ -43,10 +43,7 @@ async def stop(interaction):
 	description="Testing command"
 )
 async def test(interaction):
-	print(client.get_all_channels())
-	testvar = client.get_all_channels()
-	for thing in testvar:
-		print(thing)
+	print("Test")
 	await interaction.response.send_message("Done testing.")
 
 @tree.command(
