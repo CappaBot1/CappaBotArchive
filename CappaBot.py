@@ -47,8 +47,9 @@ async def stop(interaction: discord.Interaction):
 async def test(interaction: discord.Interaction):
 	print("Test")
 	await interaction.response.send_message("Testing...")
-	for i in range(25):
-		await interaction.edit_original_response(content=f"Testing number {i}\n{'-'*(i**2)}")
+	for i in range(1, 122):
+		x = i/4
+		await interaction.edit_original_response(content=f"Testing number {x}\n{'-'*int(x*4)}")
 	await interaction.followup.send("Done testing.")
 
 # Ping command. Reply with "pong" asap
@@ -65,7 +66,7 @@ async def ping(interaction: discord.Interaction):
 	description="I will react to the user you specify. If no user is given, I will stop reacting to the current person"
 )
 @app_commands.describe(
-	member = "The user to react to."
+	member="The user to react to."
 )
 async def react(interaction: discord.Interaction, member: typing.Optional[discord.Member] = None):
 	global personToReact
@@ -85,7 +86,7 @@ async def react(interaction: discord.Interaction, member: typing.Optional[discor
 	description="I will copy the user you specify. If no user is given, I will stop copying the current person."
 )
 @app_commands.describe(
-	member = "The user to copy."
+	member="The user to copy."
 )
 async def copy(interaction: discord.Interaction, member: typing.Optional[discord.Member] = None):
 	global personToCopy
@@ -129,8 +130,10 @@ class VoiceGroup(app_commands.Group):
 				await voice_client.disconnect()
 		await interaction.response.edit_message(content="Disconnected.")
 
+# This will run when the bot is ready to take inputs
 @client.event
 async def on_ready():
+	# Print that we have connected to discord.
 	print(f'{client.user} has connected to Discord!')
 
 	# Add the voice commands to the command tree
@@ -148,6 +151,8 @@ async def on_ready():
 
 		#channel = client.get_channel(CHANNEL)
 		#await channel.send("Cappa Bot is online")
+	
+	print("Finished loading.")
 
 # When someone send a message
 @client.event
