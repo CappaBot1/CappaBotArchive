@@ -156,7 +156,7 @@ async def on_ready():
 
 # When someone send a message
 @client.event
-async def on_message(message):
+async def on_message(message: discord.Message):
 	global personToReact
 	global personToCopy
 	# Print the message info
@@ -185,9 +185,13 @@ async def on_message(message):
 	Sent from: {message.author}
 	Contents: {message.content}""")
 			
-			# Check if 'wrong' is in the message and say something if there is.
-			if "wrong" in message.content:
+			# Check if "wrong" is in the message and say something if there is.
+			if "wrong" in message.content.lower():
 				await message.channel.send("Haha, you said 'wrong'. Get timed out.")
+			
+			# Check if "puh" is in the message and respond with the puh gif
+			if "puh" in message.content.lower():
+				await message.channel.send(file=discord.File("puh.gif"))
 
 			# Check if I need to react to the person
 			if message.author.name == personToReact:
