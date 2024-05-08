@@ -13,6 +13,7 @@ Parent folder: <br>
 &ensp;&ensp;&ensp;&ensp;  three.jpg <br>
 &ensp;&ensp; CappaBot: <br>
 &ensp;&ensp;&ensp;&ensp;  CappaBot.py <br>
+&ensp;&ensp;&ensp;&ensp;  puh.gif <br>
 &ensp;&ensp;&ensp;&ensp;  README.md <br>
 &ensp;&ensp; .env <br>
 <hr>
