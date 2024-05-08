@@ -115,7 +115,7 @@ class VoiceGroup(app_commands.Group):
 		print(f"Connect command on {channel}")
 		await interaction.response.send_message(f"Trying to connect to {channel}.")
 		await channel.connect()
-		await interaction.response.edit_message(content=f"Connected to {channel}.")
+		await interaction.edit_original_response(content=f"Connected to {channel}.")
 
 	# Disconnect from a voice channel
 	@app_commands.command(
@@ -128,7 +128,7 @@ class VoiceGroup(app_commands.Group):
 		for voice_client in client.voice_clients:
 			if voice_client.guild == interaction.guild:
 				await voice_client.disconnect()
-		await interaction.response.edit_message(content="Disconnected.")
+		await interaction.edit_original_response(content="Disconnected.")
 
 # This will run when the bot is ready to take inputs
 @client.event
