@@ -74,7 +74,7 @@ async def react(interaction: discord.Interaction, member: typing.Optional[discor
 	# If a user was given, react to them
 	if member:
 		personToReact = str(member)
-	# Else, react to no_one
+	# Else, react to no one
 	else:
 		personToReact = "no one"
 
@@ -94,7 +94,7 @@ async def copy(interaction: discord.Interaction, member: typing.Optional[discord
 	# If a user was given, copy them
 	if member:
 		personToCopy = str(member)
-	# Else, copy no_one
+	# Else, copy no one
 	else:
 		personToCopy = "no one"
 
@@ -130,7 +130,10 @@ class VoiceGroup(app_commands.Group):
 
 @tree.command(
 	name="say",
-	description="Say whatever string of text you input"
+	description="Say whatever string of text you input."
+)
+@app_commands.describe(
+	text="The text I will output."
 )
 async def say(interaction: discord.Interaction, text: str):
 	await interaction.response.send_message(text)
