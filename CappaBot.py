@@ -83,7 +83,7 @@ async def react(interaction: discord.Interaction, member: typing.Optional[discor
 
 # Copy command. Give a user to copy. If blank, don't copy anyone
 @tree.command(
-	description="I will copy the user you specify. I stop copying if no user given."
+	description="I will copy the user you specify. I stop copying if no user given.",
 	description="I will copy the user you specify. If empty, stop copying."
 )
 @app_commands.describe(
