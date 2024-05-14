@@ -63,7 +63,7 @@ async def ping(interaction: discord.Interaction):
 
 # React command. Give a user to react to. If blank, don't react to anyone
 @tree.command(
-	description="I will react to the user you specify. I stop reacting if no user given."
+	description="I will react to the user you specify. If empty, stop reacting."
 )
 @app_commands.describe(
 	member="The user to react to."
@@ -74,16 +74,17 @@ async def react(interaction: discord.Interaction, member: typing.Optional[discor
 	# If a user was given, react to them
 	if member:
 		personToReact = str(member)
-	# Else, react to no_one
+	# Else, react to no one
 	else:
 		personToReact = "no one"
 
 	# Say who I will react to
 	await interaction.response.send_message(f"I will react to {personToReact}")
 
-# Copy command. Giva a user to copy. If blank, don't copy anyone
+# Copy command. Give a user to copy. If blank, don't copy anyone
 @tree.command(
 	description="I will copy the user you specify. I stop copying if no user given."
+	description="I will copy the user you specify. If empty, stop copying."
 )
 @app_commands.describe(
 	member="The user to copy."
@@ -94,25 +95,24 @@ async def copy(interaction: discord.Interaction, member: typing.Optional[discord
 	# If a user was given, copy them
 	if member:
 		personToCopy = str(member)
-	# Else, copy no_one
+	# Else, copy no one
 	else:
 		personToCopy = "no one"
 
 	# Say who I will copy
-	await interaction.response.send_message(f"I will copy {personToCopy}")
+	await interaction.response.send_message(f"I will copy {personToCopy}.")
 
 # The voice commands
 class VoiceGroup(app_commands.Group):
 	# Connect to a voice channel
 	@app_commands.command(
 		name="connect",
-		description="Connect to a voice channel"
+		description="Connect to a given voice channel."
 	)
 	@app_commands.describe(
 		channel = "The voice channel I will join."
 	)
 	async def connect(self, interaction: discord.Interaction, channel: discord.VoiceChannel):
-		print(f"Connect command on {channel}")
 		await interaction.response.send_message(f"Trying to connect to {channel}.")
 		await channel.connect()
 		await interaction.edit_original_response(content=f"Connected to {channel}.")
@@ -123,12 +123,21 @@ class VoiceGroup(app_commands.Group):
 		description="Disconnect from the current voice call I am in."
 	)
 	async def disconnect(self, interaction: discord.Interaction):
-		print("Disconnect command")
 		await interaction.response.send_message("Trying to disconnect.")
 		for voice_client in client.voice_clients:
 			if voice_client.guild == interaction.guild:
 				await voice_client.disconnect()
-		await interaction.edit_original_response(content="Disconnected.")
+		await interaction.response.edit_message(content="Disconnected.")
+
+@tree.command(
+	name="say",
+	description="Say whatever string of text you input."
+)
+@app_commands.describe(
+	text="The text I will output."
+)
+async def say(interaction: discord.Interaction, text: str):
+	await interaction.response.send_message(text)
 
 # This will run when the bot is ready to take inputs
 @client.event
