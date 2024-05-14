@@ -114,7 +114,7 @@ class VoiceGroup(app_commands.Group):
 	async def connect(self, interaction: discord.Interaction, channel: discord.VoiceChannel):
 		await interaction.response.send_message(f"Trying to connect to {channel}.")
 		await channel.connect()
-		await interaction.response.edit_message(content=f"Connected to {channel}.")
+		await interaction.edit_original_response(content=f"Connected to {channel}.")
 
 	# Disconnect from a voice channel
 	@app_commands.command(
