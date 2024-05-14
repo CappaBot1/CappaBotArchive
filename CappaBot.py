@@ -63,7 +63,7 @@ async def ping(interaction: discord.Interaction):
 
 # React command. Give a user to react to. If blank, don't react to anyone
 @tree.command(
-	description="I will react to the user you specify. If no user is given, I will stop reacting to the current person"
+	description="I will react to the user you specify. I stop reacting if no user given."
 )
 @app_commands.describe(
 	member="The user to react to."
@@ -83,7 +83,7 @@ async def react(interaction: discord.Interaction, member: typing.Optional[discor
 
 # Copy command. Giva a user to copy. If blank, don't copy anyone
 @tree.command(
-	description="I will copy the user you specify. If no user is given, I will stop copying the current person."
+	description="I will copy the user you specify. I stop copying if no user given."
 )
 @app_commands.describe(
 	member="The user to copy."
