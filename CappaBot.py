@@ -17,8 +17,8 @@ REACTION_IMAGE_NAMES = os.listdir(REACTION_IMAGE_PATH)
 SERVER = discord.Object(948070330486882355)
 
 # Basic variables
-personToReact = 0
-personToCopy = 0
+personToReact = "no one"
+personToCopy = "no one"
 
 # Print some info
 print(f"Last 4 digits of bot token: {TOKEN[-4:]}")
@@ -192,7 +192,7 @@ async def on_message(message: discord.Message):
 	Channel: {message.channel.name}
 	Sent from: {message.author}
 	Contents: {message.content}""")
-			
+
 			# Check if "wrong" is in the message and say something if there is.
 			if "wrong" in message.content.lower():
 				await message.channel.send("Haha, you said 'wrong'. Get timed out.")
