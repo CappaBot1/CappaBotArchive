@@ -212,6 +212,9 @@ async def on_message(message: discord.Message):
 			if "puh" in message.content.lower():
 				await message.channel.send(file=discord.File("puh.gif"))
 
+			if "pluh" in message.content.lower():
+				await message.add_reaction(":speaking-head:")
+
 			# Check if I need to react to the person
 			if message.author.name == personToReact:
 				# React to them
