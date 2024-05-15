@@ -1,4 +1,4 @@
-import asyncio, discord, os, random, sys, typing
+import asyncio, discord, os, random, sys, typing, requests
 from discord import app_commands
 from dotenv import load_dotenv
 
@@ -228,6 +228,26 @@ async def on_message(message: discord.Message):
 	Contents: {message.content}""")
 	
 	print("-"*50)
+
+print("Posting and stuff")
+# Define new data to create
+new_data = {
+    "userID": 1,
+    "id": 1,
+    "title": "Making a POST request",
+    "body": "This is the data we created."
+}
+
+# The API endpoint to communicate with
+url_post = "https://cappabot-man-face-coding-f1293819.koyeb.app/"
+
+# A POST request to the API
+post_response = requests.post(url_post, json=new_data)
+
+# Print the response
+#post_response_json = post_response.json()
+#print(post_response_json)
+print("Done posting")
 
 client.run(TOKEN)
 
