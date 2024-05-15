@@ -12,13 +12,16 @@ CAPPABOT = int(os.getenv("DISCORD_CAPPABOT_ID"))
 
 # Constant variables
 DEBUG = False
-REACTION_IMAGE_PATH = "../reactionImages/"
+SERVER = discord.Object(948070330486882355)
+
+# Try find the reaction images
 try:
+	REACTION_IMAGE_PATH = "../reactionImages/"
 	REACTION_IMAGE_NAMES = os.listdir(REACTION_IMAGE_PATH)
 except:
 	print("No reaction images found")
+	REACTION_IMAGE_PATH = "/"
 	REACTION_IMAGE_NAMES = ("puh.gif")
-SERVER = discord.Object(948070330486882355)
 
 # Basic variables
 personToReact = "no one"
