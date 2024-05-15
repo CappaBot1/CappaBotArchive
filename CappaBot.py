@@ -1,7 +1,7 @@
-import asyncio, discord, os, random, sys, typing, requests
-from flask import Flask, jsonify
+import asyncio, discord, os, random, sys, typing
 from discord import app_commands
 from dotenv import load_dotenv
+from background import keep_alive
 
 # CappaBot.py
 print("CappaBot has started loading...")
@@ -230,31 +230,12 @@ async def on_message(message: discord.Message):
 	
 	print("-"*50)
 
-print("Doing stuff")
+print("Starting flask thing")
+keep_alive()
+print("Started flask thing")
 
-async def doFlask():
-	print("Started doing flask")
-	app = Flask("HTTP_Flask_Server")
-
-	@app.route('/')
-	def hello_world():
-		return jsonify({'message': 'Hello, world!'})
-
-	app.run(port=8000)
-	print("Ended doing flask")
-
-async def doDiscord():
-	print("Starting discord client")
-	await client.run(TOKEN)
-	print("Ended discord client")
-
-async def main(): 
-    f1 = loop.create_task(doDiscord()) 
-    f2 = loop.create_task(doFlask()) 
-    await asyncio.wait([f1, f2]) 
-  
-loop = asyncio.get_event_loop() 
-loop.run_until_complete(main()) 
-loop.close()
+print("Starting discord client")
+client.run(TOKEN)
+print("Ended discord client")
 
 print("Cappa Bot has ended.")
