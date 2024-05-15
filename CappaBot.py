@@ -245,10 +245,16 @@ async def doFlask():
 
 async def doDiscord():
 	print("Starting discord client")
-	client.run(TOKEN)
+	await client.run(TOKEN)
 	print("Ended discord client")
 
-asyncio.run(doFlask())
-asyncio.run(doDiscord())
+async def main(): 
+    f1 = loop.create_task(doDiscord()) 
+    f2 = loop.create_task(doFlask()) 
+    await asyncio.wait([f1, f2]) 
+  
+loop = asyncio.get_event_loop() 
+loop.run_until_complete(main()) 
+loop.close()
 
-print("Cappa Bot has ended.") 
+print("Cappa Bot has ended.")
