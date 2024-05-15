@@ -164,9 +164,6 @@ async def on_ready():
 	if DEBUG:
 		user = client.get_user(CAPPABOT)
 		await user.send("Cappa Bot has started")
-
-		#channel = client.get_channel(CHANNEL)
-		#await channel.send("Cappa Bot is online")
 	
 	print("Finished loading.")
 
@@ -212,9 +209,9 @@ async def on_message(message: discord.Message):
 			if "puh" in message.content.lower():
 				await message.channel.send(file=discord.File("puh.gif"))
 
-			# Check if "pluh" is in the message and react with 🗣️
+			# Check if "pluh" is in the message and react with :speaking_head:
 			if "pluh" in message.content.lower():
-				await message.add_reaction(":speaking-head:")
+				await message.add_reaction(":speaking_head:")
 
 			# Check if I need to react to the person
 			if message.author.name == personToReact:
