@@ -1,4 +1,5 @@
 import asyncio, discord, os, random, sys, typing, requests
+from flask import Flask, jsonify
 from discord import app_commands
 from dotenv import load_dotenv
 
@@ -229,28 +230,25 @@ async def on_message(message: discord.Message):
 	
 	print("-"*50)
 
-print("Posting and stuff")
-# Define new data to create
-new_data = {
-    "userID": 1,
-    "id": 1,
-    "title": "Making a POST request",
-    "body": "This is the data we created."
-}
+print("Doing stuff")
 
-# The API endpoint to communicate with
-url_post = "https://cappabot-man-face-coding-f1293819.koyeb.app/"
+async def doFlask():
+	print("Started doing flask")
+	app = Flask("HTTP_Flask_Server")
 
-# A POST request to the API
-post_response = requests.post(url_post, json=new_data)
+	@app.route('/')
+	def hello_world():
+		return jsonify({'message': 'Hello, world!'})
 
-# Print the response
-#post_response_json = post_response.json()
-#print(post_response_json)
-print("Done posting")
+	app.run(port=8000)
+	print("Ended doing flask")
 
-client.run(TOKEN)
+async def doDiscord():
+	print("Starting discord client")
+	client.run(TOKEN)
+	print("Ended discord client")
 
-#CHANNEL.send("Cappa Bot died :(")
+asyncio.run(doFlask())
+asyncio.run(doDiscord())
 
 print("Cappa Bot has ended.") 
