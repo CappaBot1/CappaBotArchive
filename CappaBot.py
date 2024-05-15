@@ -176,7 +176,10 @@ async def on_message(message: discord.Message):
 	global personToReact
 	global personToCopy
 	# Print the message info
-	print(message)
+	if DEBUG:
+		print(message)
+	else:
+		print("I saw a message")
 
 	# If the message was sent in a DM to the bot
 	if message.guild:
