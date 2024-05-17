@@ -109,6 +109,31 @@ async def copy(interaction: discord.Interaction, member: typing.Optional[discord
 	# Say who I will copy
 	await interaction.response.send_message(f"I will copy {personToCopy}.")
 
+# The calculator command
+@tree.command(
+	description="Calculator"
+)
+@app_commands.describe(
+	operation="The math operation",
+	num_one="The first number",
+	num_two="The second number"
+)
+@app_commands.choices(
+	operation=[
+		app_commands.Choice(name="add", value="+"),
+		app_commands.Choice(name="subtract", value="-"),
+		app_commands.Choice(name="multiply", value="*"),
+		app_commands.Choice(name="divide", value="/")
+	]
+)
+async def calculator(interaction: discord.Interaction, operation: app_commands.Choice[str], num_one: float, num_two: float):
+	calculation = f"{num_one} {operation.value} {num_two}"
+	await interaction.response.send_message(f"Calculating: {calculation}")
+	print(f"Calculating: {calculation}")
+	answer = eval(calculation)
+	print(f"Answer: {answer}")
+	await interaction.followup.send(answer)
+
 # The voice commands
 class VoiceGroup(app_commands.Group):
 	# Connect to a voice channel
