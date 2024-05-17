@@ -231,7 +231,7 @@ async def on_message(message: discord.Message):
 			# Check if "puh" is in the message and respond with the puh gif
 			if "puh" in message.content.lower():
 				for word in message.content.lower().split(" "):
-					if random.random() < 0.9 and "puh" in word:
+					if random.random() < 0.18 and "puh" in word:
 						await message.channel.send(file=discord.File("puh.gif"))
 
 			# Check if "pluh" is in the message and react with 🗣️

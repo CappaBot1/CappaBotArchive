@@ -7,6 +7,10 @@ app = Flask('Flask_Server')
 def home():
   return "I'm alive"
 
+@app.route('/secrets')
+def secrets():
+  return "I am secret, shhhh"
+
 def run():
   app.run(host='0.0.0.0', port=8000)
 
