@@ -129,9 +129,7 @@ async def copy(interaction: discord.Interaction, member: typing.Optional[discord
 async def calculator(interaction: discord.Interaction, operation: app_commands.Choice[str], num_one: float, num_two: float):
 	calculation = f"{num_one} {operation.value} {num_two}"
 	await interaction.response.send_message(f"Calculating: {calculation}")
-	print(f"Calculating: {calculation}")
 	answer = eval(calculation)
-	print(f"Answer: {answer}")
 	await interaction.followup.send(answer)
 
 # The voice commands
