@@ -1,8 +1,8 @@
 import asyncio, discord, os, random, sys, typing
-import background
 from discord import app_commands
 from dotenv import load_dotenv
-from threading import Thread
+from flask import Flask, request
+from multiprocessing import Process
 
 # CappaBot.py
 print("CappaBot has started loading...")
@@ -38,7 +38,8 @@ tree = app_commands.CommandTree(client)
 # The exit command
 def exit():
 	print("Stopping server...")
-	httpServer.stop()
+	flaskServer.terminate()
+	flaskServer.join()
 	print("Exiting...")
 	sys.exit("Cappa Bot has terminated.")
 
@@ -265,11 +266,18 @@ async def on_message(message: discord.Message):
 	
 	print("-"*50)
 
-print("Starting flask thing")
-httpServer = background.Server()
-threadServer = Thread(target=httpServer)
-threadServer.start()
-print("Started flask thing")
+app = Flask('Flask_Server')
+
+@app.route('/')
+def home():
+	return "I'm alive"
+
+@app.route('/secrets')
+def secrets():
+	return "I am secret, shhhh"
+
+flaskServer = Process(app.run, kwargs={"host": '0.0.0.0', "port": 8000})
+flaskServer.start()
 
 print("Starting discord client")
 client.run(TOKEN)
