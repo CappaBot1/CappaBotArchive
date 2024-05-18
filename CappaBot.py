@@ -1,7 +1,8 @@
 import asyncio, discord, os, random, sys, typing
+import background
 from discord import app_commands
 from dotenv import load_dotenv
-from background import keep_alive
+from threading import Thread
 
 # CappaBot.py
 print("CappaBot has started loading...")
@@ -13,7 +14,7 @@ CAPPABOT = int(os.getenv("DISCORD_CAPPABOT_ID"))
 
 # Constant variables
 DEBUG = False
-SERVER = discord.Object(948070330486882355)
+SERVERS = (1241153842071081000, 948070330486882355)
 
 # Try find the reaction images
 try:
@@ -28,16 +29,18 @@ except:
 personToReact = "no one"
 personToCopy = "no one"
 
-# Print some info
-print(f"Last 4 digits of bot token: {TOKEN[-4:]}")
-print(f"CappaBot ID: {CAPPABOT}")
-print(f"Server: {SERVER.id}")
-
 # Make the discord client
 client = discord.Client(intents=discord.Intents.all())
 
 # Make the command tree
 tree = app_commands.CommandTree(client)
+
+# The exit command
+def exit():
+	print("Stopping server...")
+	httpServer.stop()
+	print("Exiting...")
+	sys.exit("Cappa Bot has terminated.")
 
 # Stop command. Will stop the program from running.
 @tree.command(
@@ -46,7 +49,7 @@ tree = app_commands.CommandTree(client)
 async def stop(interaction: discord.Interaction):
 	print("Stopping from the stop command.")
 	await interaction.response.send_message("Ok, I'll stop now.")
-	sys.exit("Someone told me to stop.")
+	exit()
 
 # Testing command. Subject to change.
 @tree.command(
@@ -159,6 +162,7 @@ class VoiceGroup(app_commands.Group):
 				await voice_client.disconnect()
 		await interaction.response.edit_message(content="Disconnected.")
 
+# The say command. Repeat whatever input the user gives.
 @tree.command(
 	name="say",
 	description="Say whatever string of text you input."
@@ -179,10 +183,12 @@ async def on_ready():
 	voiceGroup = VoiceGroup(name="voice", description="The voice commands can make me connect and disconnect from a voice call.")
 	tree.add_command(voiceGroup)
 
-	# Copy the commands to the server
-	tree.copy_global_to(guild=SERVER)
-	# Sync the commands to the server
-	await tree.sync(guild=SERVER)
+	for server in SERVERS:
+		server = discord.Object(server)
+		# Copy the commands to the server
+		tree.copy_global_to(guild=server)
+		# Sync the commands to the server
+		await tree.sync(guild=server)
 
 	if DEBUG:
 		user = client.get_user(CAPPABOT)
@@ -260,7 +266,9 @@ async def on_message(message: discord.Message):
 	print("-"*50)
 
 print("Starting flask thing")
-keep_alive()
+httpServer = background.Server()
+threadServer = Thread(target=httpServer)
+threadServer.start()
 print("Started flask thing")
 
 print("Starting discord client")
