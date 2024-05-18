@@ -276,7 +276,7 @@ def home():
 def secrets():
 	return "I am secret, shhhh"
 
-flaskServer = Process(app.run, kwargs={"host": '0.0.0.0', "port": 8000})
+flaskServer = Process(target=app.run, kwargs={"host": '0.0.0.0', "port": 8000})
 flaskServer.start()
 
 print("Starting discord client")
