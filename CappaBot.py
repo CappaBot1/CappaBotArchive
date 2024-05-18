@@ -184,12 +184,18 @@ async def on_ready():
 	voiceGroup = VoiceGroup(name="voice", description="The voice commands can make me connect and disconnect from a voice call.")
 	tree.add_command(voiceGroup)
 
+	# Sync to testing servers
+	print("Syncing servers...")
 	for server in SERVERS:
 		server = discord.Object(server)
 		# Copy the commands to the server
 		tree.copy_global_to(guild=server)
 		# Sync the commands to the server
 		await tree.sync(guild=server)
+
+	# Sync globally
+	print("Syncing globally...")
+	await tree.sync()
 
 	if DEBUG:
 		user = client.get_user(CAPPABOT)
