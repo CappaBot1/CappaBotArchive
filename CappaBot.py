@@ -282,10 +282,10 @@ def home():
 def secrets():
 	return "I am secret, shhhh"
 
-#@app.route('/index')
-#def index():
-#	site = open("website/index.html")
-#	return site
+@app.route('/index')
+def index():
+	site = open("website/index.html")
+	return site
 
 flaskServer = Process(target=app.run, kwargs={"host": '0.0.0.0', "port": 8000})
 flaskServer.start()
