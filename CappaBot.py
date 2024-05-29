@@ -71,7 +71,7 @@ async def test(interaction: discord.Interaction):
 	await interaction.response.send_message("Testing...")
 	for i in range(1, 122):
 		x = i/4
-		await interaction.edit_original_response(content=f"Testing number {x}\n{'-'*int(x*4)}")
+		await interaction.edit_original_response(content=f"Testing number {x}\n{'-'*int(i)}")
 	await interaction.followup.send("Done testing.")
 
 # Ping command. Reply with "pong" asap
@@ -82,6 +82,12 @@ async def ping(interaction: discord.Interaction):
 	print("Got ping command")
 	print(interaction)
 	await interaction.response.send_message("Pong")
+
+@tree.command(
+	description="John image"
+)
+async def john(interaction: discord.Interaction):
+	await interaction.response.send_message("John", file="john.gif")
 
 # React command. Give a user to react to. If blank, don't react to anyone
 @tree.command(
