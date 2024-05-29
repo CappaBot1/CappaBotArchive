@@ -10,9 +10,12 @@ print("CappaBot has started loading...")
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 CAPPABOT = int(os.getenv("DISCORD_CAPPABOT_ID"))
+try:
+	DEBUG = os.getenv("DEBUG")
+except:
+	DEBUG = False
 
 # Constant variables
-DEBUG = False
 SERVERS = (1241153842071081000, 948070330486882355)
 
 # Try find the reaction images
