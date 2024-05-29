@@ -14,6 +14,10 @@ try:
 	DEBUG = os.getenv("DEBUG")
 except:
 	DEBUG = False
+try:
+	if os.getenv("SERVER"):
+		print("Running on server")
+		os.chdir("CappaBot")
 
 print("Debug is set to: " + DEBUG)
 
