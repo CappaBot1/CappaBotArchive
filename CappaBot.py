@@ -15,6 +15,8 @@ try:
 except:
 	DEBUG = False
 
+print("Debug is set to: " + DEBUG)
+
 # Constant variables
 SERVERS = (1241153842071081000, 948070330486882355)
 
