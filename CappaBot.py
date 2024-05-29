@@ -18,7 +18,7 @@ except:
 print("Debug is set to: " + DEBUG)
 
 if DEBUG:
-	print("I am at: " + os.cwd())
+	print("I am at: " + os.getcwd())
 
 # Constant variables
 SERVERS = (1241153842071081000, 948070330486882355)
