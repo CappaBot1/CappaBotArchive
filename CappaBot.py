@@ -1,7 +1,6 @@
 import asyncio, discord, os, random, sys, typing
 from discord import app_commands
 from dotenv import load_dotenv
-from flask import Flask, request
 from multiprocessing import Process
 
 # CappaBot.py
@@ -37,9 +36,6 @@ tree = app_commands.CommandTree(client)
 
 # The exit command
 def exit():
-	print("Stopping server...")
-	flaskServer.terminate()
-	flaskServer.join()
 	print("Exiting...")
 	sys.exit("Cappa Bot has terminated.")
 
@@ -194,8 +190,8 @@ async def on_ready():
 		await tree.sync(guild=server)
 
 	# Sync globally
-	print("Syncing globally...")
-	await tree.sync()
+	#print("Syncing globally...")
+	#await tree.sync()
 
 	if DEBUG:
 		user = client.get_user(CAPPABOT)
@@ -244,7 +240,9 @@ async def on_message(message: discord.Message):
 			# Check if "puh" is in the message and respond with the puh gif
 			if "puh" in message.content.lower():
 				for word in message.content.lower().split(" "):
-					if random.random() < 0.18 and "puh" in word:
+					randomNum = random.random()
+					print(randomNum)
+					if randomNum < 0.18 and "puh" in word:
 						await message.channel.send(file=discord.File("puh.gif"))
 
 			# Check if "pluh" is in the message and react with 🗣️
@@ -271,19 +269,6 @@ async def on_message(message: discord.Message):
 	Contents: {message.content}""")
 	
 	print("-"*50)
-
-app = Flask('Flask_Server')
-
-@app.route('/')
-def home():
-	return "I'm alive"
-
-@app.route('/secrets')
-def secrets():
-	return "I am secret, shhhh"
-
-flaskServer = Process(target=app.run, kwargs={"host": '0.0.0.0', "port": 8000})
-flaskServer.start()
 
 print("Starting discord client")
 client.run(TOKEN)
