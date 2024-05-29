@@ -18,6 +18,8 @@ try:
 	if os.getenv("SERVER"):
 		print("Running on server")
 		os.chdir("CappaBot")
+except:
+	print("Not running on server")
 
 print("Debug is set to: " + DEBUG)
 
