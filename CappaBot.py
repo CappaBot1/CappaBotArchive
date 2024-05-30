@@ -221,9 +221,9 @@ async def on_ready():
 		await tree.sync(guild=server)
 	
 	# Sync globally
-	#print("Syncing globally...")
-	#await tree.sync()
-	
+	print("Syncing globally...")
+	await tree.sync()
+
 	if DEBUG:
 		user = client.get_user(CAPPABOT)
 		await user.send("Cappa Bot has started")
