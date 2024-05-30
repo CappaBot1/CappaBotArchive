@@ -87,7 +87,7 @@ async def ping(interaction: discord.Interaction):
 	description="John image"
 )
 async def john(interaction: discord.Interaction):
-	await interaction.response.send_message("John", file="john.gif")
+	await interaction.response.send_message("John", file=discord.File("john.gif"))
 
 # React command. Give a user to react to. If blank, don't react to anyone
 @tree.command(
@@ -190,6 +190,17 @@ class VoiceGroup(app_commands.Group):
 async def say(interaction: discord.Interaction, text: str):
 	await interaction.response.send_message(text)
 
+# The execute command will run a piece of code
+@tree.command(
+	name="exec",
+	description="Execute a python command"
+)
+async def execute(interaction: discord.Interaction, command: str):
+	print("Execute: " + command)
+	await interaction.response.send_message("Execute: " + command)
+	exec(command)
+	await interaction.followup.send("Done.")
+
 # This will run when the bot is ready to take inputs
 @client.event
 async def on_ready():
@@ -199,7 +210,7 @@ async def on_ready():
 	# Add the voice commands to the command tree
 	voiceGroup = VoiceGroup(name="voice", description="The voice commands can make me connect and disconnect from a voice call.")
 	tree.add_command(voiceGroup)
-
+	
 	# Sync to testing servers
 	print("Syncing servers...")
 	for server in SERVERS:
@@ -208,11 +219,11 @@ async def on_ready():
 		tree.copy_global_to(guild=server)
 		# Sync the commands to the server
 		await tree.sync(guild=server)
-
+	
 	# Sync globally
 	#print("Syncing globally...")
 	#await tree.sync()
-
+	
 	if DEBUG:
 		user = client.get_user(CAPPABOT)
 		await user.send("Cappa Bot has started")
