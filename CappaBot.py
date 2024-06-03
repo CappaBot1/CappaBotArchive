@@ -201,6 +201,24 @@ async def execute(interaction: discord.Interaction, command: str):
 	exec(command)
 	await interaction.followup.send("Done.")
 
+# The sync command
+@tree.command(
+	description="Sync commands for this server"
+)
+async def sync(interaction: discord.Interaction):
+	await interaction.response.send_message("Syncing...")
+	tree.sync(guild=interaction.guild)
+	await interaction.response.edit_message("Synced")
+
+# The clear command should clear old commands
+@tree.command(
+	description="Clears old commands"
+)
+async def clear_old(interaction: discord.Interaction):
+	await interaction.response.send_message("Clearing...")
+	tree.clear_commands(guild=interaction.guild)
+	await interaction.response.edit_message("Clear")
+
 # This will run when the bot is ready to take inputs
 @client.event
 async def on_ready():
@@ -222,7 +240,7 @@ async def on_ready():
 	
 	# Sync globally
 	print("Syncing globally...")
-	await tree.sync()
+	await tree.sync(guild=None)
 
 	if DEBUG:
 		user = client.get_user(CAPPABOT)
