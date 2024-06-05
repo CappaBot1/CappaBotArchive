@@ -207,8 +207,8 @@ async def execute(interaction: discord.Interaction, command: str):
 )
 async def sync(interaction: discord.Interaction):
 	await interaction.response.send_message("Syncing...")
-	tree.sync(guild=interaction.guild)
-	await interaction.response.edit_message("Synced")
+	await tree.sync(guild=interaction.guild)
+	await interaction.response.edit_message(content="Synced")
 
 # The clear command should clear old commands
 @tree.command(
@@ -217,7 +217,7 @@ async def sync(interaction: discord.Interaction):
 async def clear_old(interaction: discord.Interaction):
 	await interaction.response.send_message("Clearing...")
 	tree.clear_commands(guild=interaction.guild)
-	await interaction.response.edit_message("Clear")
+	await interaction.response.edit_message(content="Clear")
 
 # This will run when the bot is ready to take inputs
 @client.event
