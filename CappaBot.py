@@ -1,4 +1,4 @@
-import asyncio, discord, os, random, sys, typing
+import discord, os, random, sys, typing
 from discord import app_commands
 from dotenv import load_dotenv
 from multiprocessing import Process
@@ -177,7 +177,7 @@ class VoiceGroup(app_commands.Group):
 		for voice_client in client.voice_clients:
 			if voice_client.guild == interaction.guild:
 				await voice_client.disconnect()
-		await interaction.response.edit_message(content="Disconnected.")
+		await interaction.edit_original_response(content="Disconnected.")
 
 # The say command. Repeat whatever input the user gives.
 @tree.command(
@@ -208,7 +208,7 @@ async def execute(interaction: discord.Interaction, command: str):
 async def sync(interaction: discord.Interaction):
 	await interaction.response.send_message("Syncing...")
 	await tree.sync(guild=interaction.guild)
-	await interaction.response.edit_message(content="Synced")
+	await interaction.edit_original_response(content="Synced")
 
 # The clear command should clear old commands
 @tree.command(
@@ -217,7 +217,7 @@ async def sync(interaction: discord.Interaction):
 async def clear_old(interaction: discord.Interaction):
 	await interaction.response.send_message("Clearing...")
 	tree.clear_commands(guild=interaction.guild)
-	await interaction.response.edit_message(content="Clear")
+	await interaction.edit_original_response(content="Clear")
 
 # This will run when the bot is ready to take inputs
 @client.event
