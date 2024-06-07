@@ -1,7 +1,6 @@
 import discord, os, random, sys, typing
 from discord import app_commands
 from dotenv import load_dotenv
-from multiprocessing import Process
 
 # CappaBot.py
 print("CappaBot has started loading...")
@@ -18,8 +17,10 @@ try:
 	if os.getenv("SERVER"):
 		print("Running on server")
 		os.chdir("CappaBot")
+		SERVER = True
 except:
 	print("Not running on server")
+	SERVER = False
 
 print("Debug is set to: " + DEBUG)
 
