@@ -7,6 +7,7 @@ I am testing GIT
 <p>
 Requirements:
 <ul>
+    <li>You need to have ffmpeg installed</li>
     <li>The .env file <b>must</b> have:</li>
     <ul>
         <li>DISCORD_TOKEN</li>

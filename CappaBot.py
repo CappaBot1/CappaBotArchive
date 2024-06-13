@@ -1,5 +1,5 @@
-import discord, os, random, sys, typing
-from discord import app_commands
+import discord, os, random, sys, typing, ffmpeg
+from discord import app_commands, FFmpegPCMAudio
 from dotenv import load_dotenv
 
 # CappaBot.py
@@ -67,9 +67,7 @@ async def stop(interaction: discord.Interaction):
 async def test(interaction: discord.Interaction):
 	print("Test")
 	await interaction.response.send_message("Testing...")
-	for i in range(1, 122):
-		x = i/4
-		await interaction.edit_original_response(content=f"Testing number {x}\n{'-'*int(i)}")
+	print(client.voice_clients[0].channel.name)
 	await interaction.followup.send("Done testing.")
 
 # Ping command. Reply with "pong" asap
@@ -162,7 +160,9 @@ class VoiceGroup(app_commands.Group):
 	)
 	async def connect(self, interaction: discord.Interaction, channel: discord.VoiceChannel):
 		await interaction.response.send_message(f"Trying to connect to {channel}.")
-		await channel.connect()
+		voiceChannel = await channel.connect()
+		audioFile = FFmpegPCMAudio("connectedAudio.wav")
+		player = voiceChannel.play(audioFile)
 		await interaction.edit_original_response(content=f"Connected to {channel}.")
 
 	# Disconnect from a voice channel
