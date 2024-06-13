@@ -1,21 +1,47 @@
-This is my bot <br>
-Probably don't use it <br>
-I am testing GIT <br>
+<style>
+    h1 {
+        text-align: center;
+    }
+</style>
+
+
+<h1>This is my bot "Cappa Bot"</h1>
+<p>
+Probably don't use it<br>
+I am testing GIT
+</p>
 <hr>
-Requirements: <br>
-You must have a folder called "reactionImages" in the folder one back from this file. <br>
-E.g: <br>
+<p>
+Requirements:
+<ul>
+    <li>The .env file <b>must</b> have:</li>
+    <ul>
+        <li>DISCORD_TOKEN</li>
+        <li>DISCORD_OWNER_ID</li>
+    </ul>
+    <li>The .env file can have:</li>
+    <ul>
+        <li>DEBUG</li>
+        <li>SERVER</li>
+    </ul>
+    <li>You must have a folder called "reactionImages" in the folder one back from this file. <br> E.g: </li>
 <hr>
-Parent folder: <br>
-&ensp;&ensp; reactionImages: <br>
-&ensp;&ensp;&ensp;&ensp;  1.png <br>
-&ensp;&ensp;&ensp;&ensp;  2.gif <br>
-&ensp;&ensp;&ensp;&ensp;  three.jpg <br>
-&ensp;&ensp; CappaBot: <br>
-&ensp;&ensp;&ensp;&ensp;  CappaBot.py <br>
-&ensp;&ensp;&ensp;&ensp;  puh.gif <br>
-&ensp;&ensp;&ensp;&ensp;  README.md <br>
-&ensp;&ensp; .env <br>
+Parent folder:
+<ul>
+<li>reactionImages:</li>
+<ul>
+    <li>1.png</li>
+    <li>2.gif</li>
+    <li>three.jpg</li>
+</ul>
+<li>CappaBot:</li>
+<ul>
+    <li>CappaBot.py</li>
+    <li>john.gif</li>
+    <li>puh.gif</li>
+    <li>README.md</li>
+    <li>requirements.txt</li>
+</ul>
+<li>.env</li>
 <hr>
-Yup. <br>
-- CappaBot
+- Made by CappaBot
