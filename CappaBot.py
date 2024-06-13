@@ -27,8 +27,6 @@ print("Debug is set to: " + DEBUG)
 if DEBUG:
 	print("I am at: " + os.getcwd())
 
-# Constant variables
-SERVERS = (1241153842071081000, 948070330486882355)
 
 # Try find the reaction images
 try:
@@ -36,8 +34,8 @@ try:
 	REACTION_IMAGE_NAMES = os.listdir(REACTION_IMAGE_PATH)
 except:
 	print("No reaction images found")
-	REACTION_IMAGE_PATH = "/"
-	REACTION_IMAGE_NAMES = ("puh.gif")
+	REACTION_IMAGE_PATH = ""
+	REACTION_IMAGE_NAMES = ("puh.gif", "john.gif")
 
 # Basic variables
 personToReact = "no one"
@@ -229,15 +227,6 @@ async def on_ready():
 	# Add the voice commands to the command tree
 	voiceGroup = VoiceGroup(name="voice", description="The voice commands can make me connect and disconnect from a voice call.")
 	tree.add_command(voiceGroup)
-	
-	# Sync to testing servers
-	print("Syncing servers...")
-	for server in SERVERS:
-		server = discord.Object(server)
-		# Copy the commands to the server
-		tree.copy_global_to(guild=server)
-		# Sync the commands to the server
-		await tree.sync(guild=server)
 	
 	# Sync globally
 	print("Syncing globally...")
