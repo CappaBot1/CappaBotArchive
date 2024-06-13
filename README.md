@@ -1,10 +1,3 @@
-<style>
-    h1 {
-        text-align: center;
-    }
-</style>
-
-
 <h1>This is my bot "Cappa Bot"</h1>
 <p>
 Probably don't use it<br>
