@@ -8,7 +8,7 @@ print("CappaBot has started loading...")
 # Enivornment variables
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
-CAPPABOT = int(os.getenv("DISCORD_CAPPABOT_ID"))
+OWNER = int(os.getenv("DISCORD_OWNER_ID"))
 try:
 	DEBUG = os.getenv("DEBUG")
 except:
@@ -244,7 +244,7 @@ async def on_ready():
 	await tree.sync(guild=None)
 
 	if DEBUG:
-		user = client.get_user(CAPPABOT)
+		user = client.get_user(OWNER)
 		await user.send("Cappa Bot has started")
 	
 	print("Finished loading.")
