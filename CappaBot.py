@@ -27,7 +27,6 @@ print("Debug is set to: " + DEBUG)
 if DEBUG:
 	print("I am at: " + os.getcwd())
 
-
 # Try find the reaction images
 try:
 	REACTION_IMAGE_PATH = "../reactionImages/"
