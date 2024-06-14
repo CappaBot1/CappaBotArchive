@@ -1,4 +1,4 @@
-import discord, os, random, sys, typing, ffmpeg
+import discord, os, random, sys, typing#, ffmpeg
 from discord import app_commands, FFmpegPCMAudio
 from dotenv import load_dotenv
 
@@ -67,7 +67,9 @@ async def stop(interaction: discord.Interaction):
 async def test(interaction: discord.Interaction):
 	print("Test")
 	await interaction.response.send_message("Testing...")
-	print(client.voice_clients[0].channel.name)
+	# Put test here:
+	
+	# End of test
 	await interaction.followup.send("Done testing.")
 
 # Ping command. Reply with "pong" asap
@@ -176,6 +178,13 @@ class VoiceGroup(app_commands.Group):
 			if voice_client.guild == interaction.guild:
 				await voice_client.disconnect()
 		await interaction.edit_original_response(content="Disconnected.")
+	
+	@app_commands.command(
+		description="Plays the attached file."
+	)
+	async def play(interaction: discord.Interaction, file: discord.File):
+		await interaction.response.send_message("Trying to play file")
+		print(file)
 
 # The say command. Repeat whatever input the user gives.
 @tree.command(
