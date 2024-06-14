@@ -181,18 +181,6 @@ class VoiceGroup(app_commands.Group):
 			if voice_client.guild == interaction.guild:
 				await voice_client.disconnect()
 		await interaction.edit_original_response(content="Disconnected.")
-	
-	@app_commands.command(
-		description="Plays the attached file."
-	)
-	async def play(self, interaction: discord.Interaction, file: discord.Attachment):
-		await interaction.response.send_message(f"Trying to play file in {client.voice_clients[0]}")
-		voiceChannel: discord.VoiceChannel = client.voice_clients[0].channel
-		print(f"Trying to play {file}")
-		urllib.request.urlretrieve(file, "audio.wav")
-		audioFile = FFmpegPCMAudio("connectedAudio.wav")
-		player = voiceChannel.play(audioFile)
-		await interaction.edit_original_response(content="It might have worked")
 
 # The say command. Repeat whatever input the user gives.
 @tree.command(
