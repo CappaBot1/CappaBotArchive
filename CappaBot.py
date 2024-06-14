@@ -185,6 +185,7 @@ class VoiceGroup(app_commands.Group):
 	async def play(self, interaction: discord.Interaction, file: discord.Attachment):
 		await interaction.response.send_message("Trying to play file")
 		print(file)
+		await interaction.edit_original_response(content="It might have worked")
 
 # The say command. Repeat whatever input the user gives.
 @tree.command(
