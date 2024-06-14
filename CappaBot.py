@@ -182,7 +182,7 @@ class VoiceGroup(app_commands.Group):
 	@app_commands.command(
 		description="Plays the attached file."
 	)
-	async def play(interaction: discord.Interaction, file: discord.File):
+	async def play(self, interaction: discord.Interaction, file: discord.File):
 		await interaction.response.send_message("Trying to play file")
 		print(file)
 
