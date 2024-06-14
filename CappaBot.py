@@ -13,10 +13,10 @@ try:
 	DEBUG = os.getenv("DEBUG")
 except:
 	DEBUG = False
+
 try:
 	if os.getenv("SERVER"):
 		print("Running on server")
-		os.chdir("CappaBot")
 		SERVER = True
 except:
 	print("Not running on server")
@@ -29,9 +29,11 @@ if DEBUG:
 
 # Try find the reaction images
 try:
-	REACTION_IMAGE_PATH = "../reactionImages/"
+	# Get reaction images
+	REACTION_IMAGE_PATH = "reactionImages/"
 	REACTION_IMAGE_NAMES = os.listdir(REACTION_IMAGE_PATH)
 except:
+	# Reaction image folder doesn't exist
 	print("No reaction images found")
 	REACTION_IMAGE_PATH = ""
 	REACTION_IMAGE_NAMES = ("puh.gif", "john.gif")
@@ -81,6 +83,7 @@ async def ping(interaction: discord.Interaction):
 	print(interaction)
 	await interaction.response.send_message("Pong")
 
+# The John command
 @tree.command(
 	description="John image"
 )
@@ -185,6 +188,10 @@ class VoiceGroup(app_commands.Group):
 	async def play(self, interaction: discord.Interaction, file: discord.Attachment):
 		await interaction.response.send_message("Trying to play file")
 		print(file)
+		print(str(file))
+		print(file.url)
+		print(file.waveform)
+		print(type(file.waveform))
 		await interaction.edit_original_response(content="It might have worked")
 
 # The say command. Repeat whatever input the user gives.
@@ -311,7 +318,7 @@ async def on_message(message: discord.Message):
 				print("I should copy that")
 				await message.channel.send(message.content)
 
-	# If the message was sent in a text channel
+	# If the message was sent in a DM channel
 	else:
 		print(f"""Message in DM's. Details:
 	Sent from: {message.author.name} / {message.author.global_name}

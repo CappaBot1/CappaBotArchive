@@ -18,24 +18,23 @@ Requirements:
         <li>DEBUG</li>
         <li>SERVER</li>
     </ul>
-    <li>You must have a folder called "reactionImages" in the folder one back from this file. <br> E.g: </li>
-<hr>
-Parent folder:
-<ul>
-<li>reactionImages:</li>
-<ul>
-    <li>1.png</li>
-    <li>2.gif</li>
-    <li>three.jpg</li>
+    <li>The reaction images should contain files<br> E.g: </li>
 </ul>
-<li>CappaBot:</li>
+<hr>
+CappaBot:
 <ul>
+    <li>reactionImages:</li>
+    <ul>
+        <li>1.png</li>
+        <li>2.gif</li>
+        <li>three.jpg</li>
+    </ul>
     <li>CappaBot.py</li>
     <li>john.gif</li>
     <li>puh.gif</li>
     <li>README.md</li>
     <li>requirements.txt</li>
+    <li>.env</li>
 </ul>
-<li>.env</li>
 <hr>
 - Made by CappaBot
