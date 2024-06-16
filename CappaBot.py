@@ -31,12 +31,16 @@ if DEBUG:
 try:
 	# Get reaction images
 	REACTION_IMAGE_PATH = "reactionImages/"
-	REACTION_IMAGE_NAMES = os.listdir(REACTION_IMAGE_PATH)
+	reactionImageNames = os.listdir(REACTION_IMAGE_PATH)
 except:
 	# Reaction image folder doesn't exist
 	print("No reaction images found")
 	REACTION_IMAGE_PATH = ""
-	REACTION_IMAGE_NAMES = ("puh.gif", "john.gif")
+	reactionImageNames = ("puh.gif", "john.gif")
+
+# Shuffle the order of the reactionImages and set the number to 0
+random.shuffle(reactionImageNames)
+reactionImageNumber = 0
 
 # Basic variables
 personToReact = "no one"
@@ -297,7 +301,8 @@ async def on_message(message: discord.Message):
 			if message.author.name == personToReact:
 				# React to them
 				print("I should react to that")
-				reactionImage = REACTION_IMAGE_PATH + random.choice(REACTION_IMAGE_NAMES)
+				reactionImage = REACTION_IMAGE_PATH + reactionImageNames[reactionImageNumber % len(reactionImageNames)]
+				reactionImageNumber += 1
 				await message.reply("", file=discord.File(reactionImage))
 			
 			# Check if I need to copy the person
