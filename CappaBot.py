@@ -251,6 +251,7 @@ async def on_ready():
 async def on_message(message: discord.Message):
 	global personToReact
 	global personToCopy
+	global reactionImageNumber
 	# Print the message info
 	if DEBUG:
 		print(message)
