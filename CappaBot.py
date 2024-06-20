@@ -240,10 +240,10 @@ class SuggestionGroup(app_commands.Group):
 		description="Remove a suggestion from the suggestion file."
 	)
 	@app_commands.describe(
-		lineNum = "The line of the suggestion file to remove"
+		line_num = "The line of the suggestion file to remove"
 	)
-	async def removeSuggestion(self, interaction: discord.Interaction, lineNum: int):
-		await interaction.response.send_message(f"Removing line {lineNum}")
+	async def removeSuggestion(self, interaction: discord.Interaction, line_num: int):
+		await interaction.response.send_message(f"Removing line {line_num}")
 
 		with open("suggestions.csv", "r") as file:
 			inCsvFile = csv.reader(file)
@@ -252,7 +252,7 @@ class SuggestionGroup(app_commands.Group):
 			outCsvFile = csv.writer(file)
 
 			for line, i in enumerate(inCsvFile):
-				if not i == lineNum:
+				if not i == line_num:
 					outCsvFile.writerow()
 				else:
 					interaction.followup.send(f"Line {i} has been removed.")
