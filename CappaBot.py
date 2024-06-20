@@ -213,7 +213,7 @@ class SuggestionGroup(app_commands.Group):
 		name="add",
 		description="Add a suggestion."
 	)
-	async def add(self, interaction: discord.Interaction, text: str):
+	async def addSuggestion(self, interaction: discord.Interaction, text: str):
 		await interaction.response.send_message(f"Adding your suggestion: {text}")
 		
 		with open("suggestions.csv", "a") as file:
@@ -226,7 +226,7 @@ class SuggestionGroup(app_commands.Group):
 		name="show",
 		description="Show the current suggestions."
 	)
-	async def show(self, interaction: discord.Interaction):
+	async def showSuggestions(self, interaction: discord.Interaction):
 		await interaction.response.send_message("Showing suggestions...")
 
 		with open("suggestions.csv", "r") as file:
@@ -242,7 +242,7 @@ class SuggestionGroup(app_commands.Group):
 	@app_commands.describe(
 		lineNum = "The line of the suggestion file to remove"
 	)
-	async def remove(self, interaction: discord.Interaction, lineNum: int):
+	async def removeSuggestion(self, interaction: discord.Interaction, lineNum: int):
 		await interaction.response.send_message(f"Removing line {lineNum}")
 
 		with open("suggestions.csv", "r") as file:
