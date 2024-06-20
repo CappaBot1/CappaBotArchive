@@ -218,17 +218,6 @@ class VoiceGroup(app_commands.Group):
 async def say(interaction: discord.Interaction, text: str):
 	await interaction.response.send_message(text)
 
-# The execute command will run a piece of code
-@tree.command(
-	name="exec",
-	description="Execute a python command"
-)
-async def execute(interaction: discord.Interaction, command: str):
-	print("Execute: " + command)
-	await interaction.response.send_message("Execute: " + command)
-	exec(command)
-	await interaction.followup.send("Done.")
-
 # The sync command
 @tree.command(
 	description="Sync commands for this server"
