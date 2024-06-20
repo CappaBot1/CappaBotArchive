@@ -231,7 +231,8 @@ class SuggestionGroup(app_commands.Group):
 
 		with open("suggestions.csv", "r") as file:
 			csvFile = csv.reader(file)
-			for suggestion, i in enumerate(csvFile):
+			
+			for i, suggestion in enumerate(csvFile):
 				await interaction.followup.send(f"{i}: {suggestion}")
 
 	# Remove a suggestion from the suggestions.csv file
@@ -251,7 +252,7 @@ class SuggestionGroup(app_commands.Group):
 		with open("suggestions.csv", "w") as file:
 			outCsvFile = csv.writer(file)
 
-			for line, i in enumerate(inCsvFile):
+			for i, line in enumerate(inCsvFile):
 				if not i == line_num:
 					outCsvFile.writerow()
 				else:
