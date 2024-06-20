@@ -240,7 +240,7 @@ class SuggestionGroup(app_commands.Group):
 		description="Remove a suggestion from the suggestion file."
 	)
 	@app_commands.describe(
-		line = "The line of the suggestion file to remove"
+		lineNum = "The line of the suggestion file to remove"
 	)
 	async def remove(self, interaction: discord.Interaction, lineNum: int):
 		await interaction.response.send_message(f"Removing line {lineNum}")
