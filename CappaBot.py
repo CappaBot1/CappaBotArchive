@@ -45,6 +45,7 @@ reactionImageNumber = 0
 # Basic variables
 personToReact = "no one"
 personToCopy = "no one"
+personToQuote = "no one"
 
 # Make the discord client
 client = discord.Client(intents=discord.Intents.all())
@@ -133,6 +134,26 @@ async def copy(interaction: discord.Interaction, member: typing.Optional[discord
 
 	# Say who I will copy
 	await interaction.response.send_message(f"I will copy {personToCopy}.")
+
+# Quote command. Give a user to quote. If blank, don't quote anyone
+@tree.command(
+	description="I will put quotes around any message the user sends. If empty, stop quoting."
+)
+@app_commands.describe(
+	member="The user to quote."
+)
+async def quote(interaction: discord.Interaction, member: typing.Optional[discord.Member] = None):
+	global personToQuote
+
+	# If a user was given, quote them
+	if member:
+		personToQuote = str(member)
+	# Else, quote no one
+	else:
+		personToQuote = "no one"
+
+	# Say who I will quote
+	await interaction.response.send_message(f"I will quote {personToQuote}.")
 
 # The calculator command
 @tree.command(
@@ -251,6 +272,8 @@ async def on_ready():
 async def on_message(message: discord.Message):
 	global personToReact
 	global personToCopy
+	global personToQuote
+
 	global reactionImageNumber
 	# Print the message info
 	if DEBUG:
@@ -311,6 +334,12 @@ async def on_message(message: discord.Message):
 				# Copy them
 				print("I should copy that")
 				await message.channel.send(message.content)
+			
+			# Check if I need to quote the person
+			if message.author.name == personToQuote:
+				# Quote them
+				print("I should quote that")
+				await message.channel.send(f"\"{message.content}\"")
 
 	# If the message was sent in a DM channel
 	else:
