@@ -1,4 +1,4 @@
-import discord, os, random, sys, typing, urllib.request
+import discord, os, random, sys, typing, csv
 from discord import app_commands, FFmpegPCMAudio
 from dotenv import load_dotenv
 
@@ -207,6 +207,56 @@ class VoiceGroup(app_commands.Group):
 				await voice_client.disconnect()
 		await interaction.edit_original_response(content="Disconnected.")
 
+class SuggestionGroup(app_commands.Group):
+	# Add a suggestion to the array
+	@app_commands.command(
+		name="add",
+		description="Add a suggestion."
+	)
+	async def add(self, interaction: discord.Interaction, text: str):
+		await interaction.response.send_message(f"Adding your suggestion: {text}")
+		
+		with open("suggestions.csv", "a") as file:
+			csvFile = csv.writer(file)
+
+			csvFile.writerow(text)
+
+	# Show all of the suggestions in the suggestions.csv file
+	@app_commands.command(
+		name="show",
+		description="Show the current suggestions."
+	)
+	async def show(self, interaction: discord.Interaction):
+		await interaction.response.send_message("Showing suggestions...")
+
+		with open("suggestions.csv", "r") as file:
+			csvFile = csv.reader(file)
+			for suggestion, i in enumerate(csvFile):
+				await interaction.followup.send(f"{i}: {suggestion}")
+
+	# Remove a suggestion from the suggestions.csv file
+	@app_commands.command(
+		name="remove",
+		description="Remove a suggestion from the suggestion file."
+	)
+	@app_commands.describe(
+		line = "The line of the suggestion file to remove"
+	)
+	async def remove(self, interaction: discord.Interaction, lineNum: int):
+		await interaction.response.send_message(f"Removing line {lineNum}")
+
+		with open("suggestions.csv", "r") as file:
+			inCsvFile = csv.reader(file)
+		
+		with open("suggestions.csv", "w") as file:
+			outCsvFile = csv.writer(file)
+
+			for line, i in enumerate(inCsvFile):
+				if not i == lineNum:
+					outCsvFile.writerow()
+				else:
+					interaction.followup.send(f"Line {i} has been removed.")
+
 # The say command. Repeat whatever input the user gives.
 @tree.command(
 	name="say",
@@ -216,7 +266,7 @@ class VoiceGroup(app_commands.Group):
 	text="The text I will output."
 )
 async def say(interaction: discord.Interaction, text: str):
-	await interaction.response.send_message(text)
+	await interaction.channel.send(text)
 
 # The sync command
 @tree.command(
@@ -243,9 +293,11 @@ async def on_ready():
 	print(f'{client.user} has connected to Discord!')
 
 	# Add the voice commands to the command tree
-	voiceGroup = VoiceGroup(name="voice", description="The voice commands can make me connect and disconnect from a voice call.")
-	tree.add_command(voiceGroup)
-	
+	tree.add_command(VoiceGroup(name="voice", description="The voice commands can make me connect and disconnect from a voice call."))
+
+	# Add the suggestion commands to the command tree
+	tree.add_command(SuggestionGroup(name="suggestions", description="The suggestion commands modify the suggestions.csv file."))
+
 	# Sync globally
 	print("Syncing globally...")
 	await tree.sync(guild=None)
