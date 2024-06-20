@@ -304,8 +304,8 @@ async def on_message(message: discord.Message):
 	Sent from: {message.author}
 	Contents: {message.content}""")
 
-			# Check if "wrong" is in the message and say something if there is.
-			if "wrong" in message.content.lower():
+			# Check if "wrong" is in the message and if it was sent in the server. Say something if there is.
+			if "wrong" in message.content.lower() and message.guild.id == 948070330486882355:
 				await message.channel.send("Haha, you said 'wrong'. Get timed out.")
 			
 			# Check if "puh" is in the message and respond with the puh gif
