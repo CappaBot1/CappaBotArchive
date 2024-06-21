@@ -228,7 +228,7 @@ class SuggestionGroup(app_commands.Group):
 		await interaction.response.send_message("Showing suggestions...")
 
 		with open("suggestions.txt", "r") as file:
-			for i, suggestion in enumerate(file.read()):
+			for i, suggestion in enumerate(file.readlines()):
 				await interaction.followup.send(f"{i}: {suggestion}")
 
 	# Remove a suggestion from the suggestions.txt file
