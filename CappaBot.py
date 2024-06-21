@@ -250,7 +250,7 @@ class SuggestionGroup(app_commands.Group):
 				if not i == line_num:
 					fileOut.write(line)
 				else:
-					interaction.followup.send(f"Line {i} has been removed.")
+					await interaction.followup.send(f"Line {i} has been removed.")
 
 # The say command. Repeat whatever input the user gives.
 @tree.command(
