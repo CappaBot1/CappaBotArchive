@@ -32,6 +32,7 @@ CappaBot:
     <li>CappaBot.py</li>
     <li>john.gif</li>
     <li>puh.gif</li>
+    <li>connectedAudio.wav</li>
     <li>README.md</li>
     <li>requirements.txt</li>
     <li>.env</li>
