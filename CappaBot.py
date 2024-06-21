@@ -243,7 +243,7 @@ class SuggestionGroup(app_commands.Group):
 		await interaction.response.send_message(f"Removing line {line_num}")
 
 		with open("suggestions.txt", "r") as fileIn:
-			oldFile = fileIn.read()
+			oldFile = fileIn.readlines()
 		
 		with open("suggestions.txt", "w") as fileOut:
 			for i, line in enumerate(oldFile):
