@@ -1,4 +1,4 @@
-import discord, os, random, sys, typing, csv
+import discord, os, random, sys, typing
 from discord import app_commands, FFmpegPCMAudio
 from dotenv import load_dotenv
 
@@ -216,10 +216,10 @@ class SuggestionGroup(app_commands.Group):
 	async def addSuggestion(self, interaction: discord.Interaction, text: str):
 		await interaction.response.send_message(f"Adding your suggestion: {text}")
 		
-		with open("suggestions.csv", "a") as file:
-			file.write("\n" + text)
+		with open("suggestions.txt", "a") as file:
+			file.write(text + "\n")
 
-	# Show all of the suggestions in the suggestions.csv file
+	# Show all of the suggestions in the suggestions.txt file
 	@app_commands.command(
 		name="show",
 		description="Show the current suggestions."
@@ -227,13 +227,11 @@ class SuggestionGroup(app_commands.Group):
 	async def showSuggestions(self, interaction: discord.Interaction):
 		await interaction.response.send_message("Showing suggestions...")
 
-		with open("suggestions.csv", "r") as file:
-			csvFile = csv.reader(file)
-			
-			for i, suggestion in enumerate(csvFile):
+		with open("suggestions.txt", "r") as file:
+			for i, suggestion in enumerate(file.read()):
 				await interaction.followup.send(f"{i}: {suggestion}")
 
-	# Remove a suggestion from the suggestions.csv file
+	# Remove a suggestion from the suggestions.txt file
 	@app_commands.command(
 		name="remove",
 		description="Remove a suggestion from the suggestion file."
@@ -244,15 +242,13 @@ class SuggestionGroup(app_commands.Group):
 	async def removeSuggestion(self, interaction: discord.Interaction, line_num: int):
 		await interaction.response.send_message(f"Removing line {line_num}")
 
-		with open("suggestions.csv", "r") as fileIn:
-			inCsvFile = csv.reader(fileIn)
+		with open("suggestions.txt", "r") as fileIn:
+			oldFile = fileIn.read()
 		
-		with open("suggestions.csv", "w") as fileOut:
-			outCsvFile = csv.writer(fileOut)
-
-			for i, line in enumerate(inCsvFile):
+		with open("suggestions.txt", "w") as fileOut:
+			for i, line in enumerate(oldFile):
 				if not i == line_num:
-					outCsvFile.writerow()
+					fileOut.write(line)
 				else:
 					interaction.followup.send(f"Line {i} has been removed.")
 
@@ -295,7 +291,7 @@ async def on_ready():
 	tree.add_command(VoiceGroup(name="voice", description="The voice commands can make me connect and disconnect from a voice call."))
 
 	# Add the suggestion commands to the command tree
-	tree.add_command(SuggestionGroup(name="suggestions", description="The suggestion commands modify the suggestions.csv file."))
+	tree.add_command(SuggestionGroup(name="suggestions", description="The suggestion commands modify the suggestions.txt file."))
 
 	# Sync globally
 	print("Syncing globally...")
