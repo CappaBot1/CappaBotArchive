@@ -208,7 +208,7 @@ class VoiceGroup(app_commands.Group):
 		await interaction.edit_original_response(content="Disconnected.")
 
 class SuggestionGroup(app_commands.Group):
-	# Add a suggestion to the array
+	# Add a suggestion to the file
 	@app_commands.command(
 		name="add",
 		description="Add a suggestion."
@@ -216,6 +216,7 @@ class SuggestionGroup(app_commands.Group):
 	async def addSuggestion(self, interaction: discord.Interaction, text: str):
 		await interaction.response.send_message(f"Adding your suggestion: {text}")
 		
+		print(f"Adding \"{text}\" to the suggestions file")
 		with open("suggestions.txt", "a") as file:
 			file.write(text + "\n")
 
@@ -250,7 +251,8 @@ class SuggestionGroup(app_commands.Group):
 				if not i == line_num:
 					fileOut.write(line)
 				else:
-					await interaction.followup.send(f"Line {i} has been removed.")
+					print(f"Removed \"{line}\" from the suggestions file")
+					await interaction.followup.send(f"\"{line}\" has been removed.")
 
 # The say command. Repeat whatever input the user gives.
 @tree.command(
@@ -334,7 +336,8 @@ async def on_message(message: discord.Message):
 		# If the message was not sent by a bot	
 		else:
 			# Print message details
-			print(f"""Message in text channel. Details:
+			if DEBUG:
+				print(f"""Message in text channel. Details:
 	Server: {message.guild.name}
 	Channel: {message.channel.name}
 	Sent from: {message.author}
@@ -379,7 +382,8 @@ async def on_message(message: discord.Message):
 
 	# If the message was sent in a DM channel
 	else:
-		print(f"""Message in DM's. Details:
+		if DEBUG:
+			print(f"""Message in DM's. Details:
 	Sent from: {message.author.name} / {message.author.global_name}
 	Contents: {message.content}""")
 	
