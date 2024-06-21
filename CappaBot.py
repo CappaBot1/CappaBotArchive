@@ -217,9 +217,7 @@ class SuggestionGroup(app_commands.Group):
 		await interaction.response.send_message(f"Adding your suggestion: {text}")
 		
 		with open("suggestions.csv", "a") as file:
-			csvFile = csv.writer(file)
-
-			csvFile.writerow(text)
+			file.write("\n" + text)
 
 	# Show all of the suggestions in the suggestions.csv file
 	@app_commands.command(
@@ -246,11 +244,11 @@ class SuggestionGroup(app_commands.Group):
 	async def removeSuggestion(self, interaction: discord.Interaction, line_num: int):
 		await interaction.response.send_message(f"Removing line {line_num}")
 
-		with open("suggestions.csv", "r") as file:
-			inCsvFile = csv.reader(file)
+		with open("suggestions.csv", "r") as fileIn:
+			inCsvFile = csv.reader(fileIn)
 		
-		with open("suggestions.csv", "w") as file:
-			outCsvFile = csv.writer(file)
+		with open("suggestions.csv", "w") as fileOut:
+			outCsvFile = csv.writer(fileOut)
 
 			for i, line in enumerate(inCsvFile):
 				if not i == line_num:
