@@ -29,13 +29,15 @@ CappaBot:
         <li>2.gif</li>
         <li>three.jpg</li>
     </ul>
+    <li>.env</li>
+    <li>.gitignore</li>
     <li>CappaBot.py</li>
+    <li>README.md</li>
+    <li>connectedAudio.wav</li>
     <li>john.gif</li>
     <li>puh.gif</li>
-    <li>connectedAudio.wav</li>
-    <li>README.md</li>
     <li>requirements.txt</li>
-    <li>.env</li>
+    <li>suggestions.txt</li>
 </ul>
 <hr>
 - Made by CappaBot
