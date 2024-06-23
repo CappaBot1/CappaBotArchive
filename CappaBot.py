@@ -38,6 +38,9 @@ except:
 	REACTION_IMAGE_PATH = ""
 	reactionImageNames = ("puh.gif", "john.gif")
 
+# Print the amount of reaction images found
+print(f"Found {len(reactionImageNames)} reaction images in {REACTION_IMAGE_PATH}")
+
 # Shuffle the order of the reactionImages and set the number to 0
 random.shuffle(reactionImageNames)
 reactionImageNumber = 0
