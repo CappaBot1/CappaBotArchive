@@ -193,6 +193,7 @@ class VoiceGroup(app_commands.Group):
 	)
 	async def connect(self, interaction: discord.Interaction, channel: discord.VoiceChannel):
 		await interaction.response.send_message(f"Trying to connect to {channel}.")
+		global voiceChannel
 		voiceChannel = await channel.connect()
 		audioFile = FFmpegPCMAudio("connectedAudio.wav")
 		player = voiceChannel.play(audioFile)
@@ -209,6 +210,17 @@ class VoiceGroup(app_commands.Group):
 			if voice_client.guild == interaction.guild:
 				await voice_client.disconnect()
 		await interaction.edit_original_response(content="Disconnected.")
+	
+	# Play the "toPlay.wav" file
+	@app_commands.command(
+		name="play",
+		description="Play the audio."
+	)
+	async def play(self, interaction: discord.Interaction):
+		await interaction.response.send_message(f"Trying to play audio.")
+		audioFile = FFmpegPCMAudio("toPlay.wav")
+		player = voiceChannel.play(audioFile)
+		await interaction.edit_original_response(content="Playing audio.")
 
 class SuggestionGroup(app_commands.Group):
 	# Add a suggestion to the file
