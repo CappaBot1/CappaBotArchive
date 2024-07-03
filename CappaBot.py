@@ -328,13 +328,14 @@ async def on_message(message: discord.Message):
 	global personToQuote
 
 	global reactionImageNumber
+
 	# Print the message info
 	if DEBUG:
 		print(message)
 	else:
 		print("I saw a message")
 
-	# If the message was sent in a DM to the bot
+	# If the message was sent in a server
 	if message.guild:
 		# If the message was sent by a bot
 		if message.author.bot:
@@ -343,13 +344,14 @@ async def on_message(message: discord.Message):
 			# If the message was sent by me
 			if message.author.name == "Cappa Bot":
 				print(f"Message was sent by me in: {message.guild.name} > {message.channel.name} | {message.content}")
+
 			# If the message was sent by dad bot
 			if message.author.name == "Dad Bot":
 				# Say shut up dad bot
 				await message.reply("Shut up dad bot.")
 			
-		# If the message was not sent by a bot	
-		else:
+		# If the message was not sent by me (to prevent looping)
+		if message.author.name != "Cappa Bot":
 			# Print message details
 			if DEBUG:
 				print(f"""Message in text channel. Details:
