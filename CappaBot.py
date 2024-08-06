@@ -156,7 +156,7 @@ async def quote(interaction: discord.Interaction, member: typing.Optional[discor
 		personToQuote = "no one"
 
 	# Say who I will quote
-	await interaction.response.send_message(f"I will quote {personToQuote}.")
+	await interaction.response.send_message(f"I will quote {personToQuote}.", ephemeral=True)
 
 # The calculator command
 @tree.command(
