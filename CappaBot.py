@@ -116,7 +116,7 @@ async def react(interaction: discord.Interaction, member: typing.Optional[discor
 		personToReact = "no one"
 
 	# Say who I will react to
-	await interaction.response.send_message(f"I will react to {personToReact}")
+	await interaction.response.send_message(f"I will react to {personToReact}", ephemeral=True)
 
 # Copy command. Give a user to copy. If blank, don't copy anyone
 @tree.command(
@@ -136,7 +136,7 @@ async def copy(interaction: discord.Interaction, member: typing.Optional[discord
 		personToCopy = "no one"
 
 	# Say who I will copy
-	await interaction.response.send_message(f"I will copy {personToCopy}.")
+	await interaction.response.send_message(f"I will copy {personToCopy}.", ephemeral=True)
 
 # Quote command. Give a user to quote. If blank, don't quote anyone
 @tree.command(
