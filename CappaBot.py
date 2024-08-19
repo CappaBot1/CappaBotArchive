@@ -278,6 +278,7 @@ class SuggestionGroup(app_commands.Group):
 	text="The text I will output."
 )
 async def say(interaction: discord.Interaction, text: str):
+	await interaction.response.send_message("Doin` it", ephemeral=True)
 	await interaction.channel.send(text)
 
 # The sync command
