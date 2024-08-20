@@ -299,6 +299,13 @@ async def clear_old(interaction: discord.Interaction):
 	tree.clear_commands(guild=interaction.guild)
 	await interaction.edit_original_response(content="Clear")
 
+# The clear command should clear old commands
+@tree.command(
+	description="Count your days."
+)
+async def count_days(interaction: discord.Interaction):
+	await interaction.response.send_message("...", file=discord.File("count_your_days.gif"))
+
 # This will run when the bot is ready to take inputs
 @client.event
 async def on_ready():
