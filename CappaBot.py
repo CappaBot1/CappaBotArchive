@@ -372,6 +372,10 @@ async def on_message(message: discord.Message):
 			if "wrong" in message.content.lower() and message.guild.id == 948070330486882355:
 				await message.channel.send("Haha, you said 'wrong'. Get timed out.")
 			
+			if message.author == "callumpuddle":
+				user = client.get_user("callumpuddle")
+				await user.send("shut up callum")
+
 			# Check if "puh" is in the message and respond with the puh gif
 			if "puh" in message.content.lower():
 				for word in message.content.lower().split(" "):
