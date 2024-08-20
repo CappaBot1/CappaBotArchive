@@ -372,7 +372,7 @@ async def on_message(message: discord.Message):
 			if "wrong" in message.content.lower() and message.guild.id == 948070330486882355:
 				await message.channel.send("Haha, you said 'wrong'. Get timed out.")
 			
-			if message.author == "cappabot":
+			if str(message.author) == "cappabot":
 				print("callum talked")
 				user = client.get_user("cappabot")
 				await user.send("shut up callum")
