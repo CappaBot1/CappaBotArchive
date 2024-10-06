@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 print("CappaBot has started loading...")
 
 # Enivornment variables
-load_dotenv()
+load_dotenv(dotenv_path=".env")
 TOKEN = os.getenv("DISCORD_TOKEN")
 OWNER = int(os.getenv("DISCORD_OWNER_ID"))
 try:
